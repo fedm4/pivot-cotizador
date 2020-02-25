@@ -1,0 +1,7 @@
+const config = {
+  gappsClientId: ``,
+  gappsClientSecret: ``,
+  gappsApiKey: ``
+};
+
+export default config;
