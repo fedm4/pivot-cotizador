@@ -2,6 +2,7 @@ import React, {useContext, useState, useEffect} from 'react';
 import Panel from '../../components/Panel/Panel';
 import Context from '../../context/MainContext';
 import Spreadsheets from '../../consts/spreadsheets';
+import Select from '../../components/Select/Select';
 
 const getAnchos = async (gapi, setAnchos, planilla) => {
   try {
@@ -59,14 +60,20 @@ const Presupuesto = () => {
           <span className="label"></span>
           <input type="text" />
         </label>
-        <label>
-          <span></span>
-          <select onChange={e=>setTabique(e.target.value)}>
-            <option>- Seleccionar -</option>
-            <option value="bath32Macizos">Bath32 Macizos</option>
-            <option value="bath32Reforzados">Bath32 Placas Reforzadas</option>
-          </select>
-        </label>
+        <Select
+          label="Tabique"
+          seleccionar={true}
+          onChange={e=>setTabique(e.target.value)}
+          options={[{
+              label: "Bath32 Macizos",
+              value: "bath32Macizos"
+            },
+            {
+              label: "Bath32 Placas Reforzadas",
+              value: "bath32Reforzados"
+            }
+          ]}
+        />
         <label>
           <span>Alto</span>
           <select onChange={e=>setAltura(e.target.value)}>
