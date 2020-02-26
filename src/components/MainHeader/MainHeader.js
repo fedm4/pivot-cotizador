@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import MainContext from '../../context/MainContext';
 import './MainHeader.scss';
-import LogoPivot from './logo-pivot.jpg';
+import LogoPivot from '../../img/logo-pivot.jpg';
 
 const MainHeader = () => {
   const {
@@ -16,9 +16,7 @@ const MainHeader = () => {
       </div>
       {
         !isSignedIn ?
-        <button onClick={handleAuthClick}
-          id="authorize-button"
-          className="g-button">Authorize</button>
+        null
         :
         <button onClick={handleSignOutClick}
           id="signout-button"

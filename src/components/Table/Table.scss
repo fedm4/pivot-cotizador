@@ -1,0 +1,78 @@
+@import '../../scss/common/variables';
+
+.table {
+    border-collapse: collapse;
+    width: 100%;
+    thead{
+        border-top: 1px solid $lighter-gray;
+        border-left: 1px solid $lighter-gray;
+        border-right: 1px solid $lighter-gray;
+        box-shadow: 0 5px 5px $lighter-gray;
+        th{
+            color: $green;
+            font-weight: 400;
+            line-height: 1.4;
+            background-color: transparent;
+            padding-top: 18px;
+            padding-bottom: 18px;
+            text-transform: capitalize;
+        }
+    }
+    tbody{
+        tr{
+            border-bottom: 1px solid $lighter-gray;
+            td{
+                background-color: transparent;
+                font-weight: 300;
+                line-height: 1.4;
+                padding-top: 18px;
+                padding-bottom: 18px;
+                text-align: center;
+                button {
+                    background: transparent;
+                    border: none;
+                    cursor: pointer;
+                    height: 30px;
+                    width: 30px;
+                    .edit-icon, .delete-icon{
+                        transition: all 0.2s linear;
+                        &.clicked{
+                            animation: iconAnimation 0.3s linear 1;
+                        }    
+                    }
+                    .edit-icon {
+                        color: $green;
+                    }
+                    .delete-icon {
+                        color: $red;
+                    }
+                    &:hover{
+                        .edit-icon, .delete-icon{
+                            font-size: 19px;
+                        }
+                    }
+                    @keyframes iconAnimation {
+                        0%{
+                            transform: rotate(0deg);
+                        }
+                        25%{
+                            transform: rotate(-45deg);
+                        }
+                        50% {
+                            transform: rotate(0deg);
+                        }
+                        75%{
+                            transform: rotate(70deg);
+                        }
+                    }
+                    &:focus{
+                        outline: none;
+                    }
+                }
+            } 
+            &:last-child{
+                border: none;
+            }
+        }
+    }
+}

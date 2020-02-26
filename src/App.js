@@ -3,6 +3,15 @@ import MainHeader from './components/MainHeader/MainHeader';
 import MainContext from './context/MainContext';
 import config from './config/config';
 import Sidebar from './components/Sidebar/Sidebar';
+import Test from './components/Test/Test';
+import PivotLogo from './img/logo-pivot.jpg';
+import {
+  BrowserRouter,
+  Switch,
+  Route
+} from 'react-router-dom';
+import './App.scss';
+import Presupuesto from './pages/Presupuesto/Presupuesto';
 
 const DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
 const SCOPES = "https://www.googleapis.com/auth/spreadsheets";
@@ -52,11 +61,38 @@ const App = () => {
         }
       }
     >
-      <MainHeader></MainHeader>
-      <main>
-        <Sidebar></Sidebar>
-      </main>
+    {
+      isSignedIn ?
+      <div>
+        <MainHeader></MainHeader>
+        <main>
+          <BrowserRouter>
+            <Sidebar></Sidebar>
+            <section className="main-content">
+              <Switch>
+                <Route exact path="/">
+                  <Test></Test>
+                </Route>
+                <Route exact path="/presupuesto">
+                  <Presupuesto></Presupuesto>
+                </Route>
+              </Switch>
+            </section>
+          </BrowserRouter>
+        </main>
+      </div>
+      : 
+      <div className="overlay">
+        <section className="connect-modal">
+          <img src={PivotLogo} />
+          <button type="button" onClick={handleAuthClick}>
+            Conectar usando Google
+          </button>
+        </section>
+      </div>
+    }
     </MainContext.Provider>
+    
   );
 }
 

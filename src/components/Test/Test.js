@@ -5,11 +5,11 @@ const Test = () => {
   const {gapi} = useContext(MainContext);
   const PrintData = async () => {
     try {
-      const data = await gapi.client.sheets.spreadsheets.values.get({
-        spreadsheetId: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms',
-        range: 'Class Data!A2:E',
+      const results = await gapi.client.sheets.spreadsheets.values.get({
+        spreadsheetId: '1DINStaC5-JYQWCur7hzeA1o0C4q_AddTzJtojYU0pJ8',
+        range: 'DIVISORIOS 1,50!J23:J24',
       });
-      console.log(data);
+      console.log(results.result.values);
     } catch (err) {
       throw err;
     }

@@ -1,7 +1,8 @@
 const config = {
   gappsClientId: ``,
   gappsClientSecret: ``,
-  gappsApiKey: ``
+  gappsApiKey: ``,
+  mongoConnection: ``
 };
 
 export default config;

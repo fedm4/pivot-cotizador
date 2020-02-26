@@ -6,7 +6,7 @@ const Sidebar = () => {
   return (
     <aside className="sidebar">
       <nav className="sidebar-nav">
-
+        <Link to="/presupuestos">Presupuestos</Link>
       </nav>
     </aside>
   )
