@@ -1,0 +1,18 @@
+@import '../../scss/common/variables';
+
+.panel {
+  border-radius: 5px;
+  box-shadow: 0 0 3px $light-gray;
+  margin: 25px auto;
+  overflow: hidden;
+  width: 90%;
+  .panel-header{
+    background-color: $light-gray;
+    padding: 15px;
+    color: $white;
+    font-weight: 600;
+  }
+  .panel-content {
+    padding: 15px;
+  }
+}

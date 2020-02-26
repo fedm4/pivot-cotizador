@@ -1,0 +1,22 @@
+@import '../../scss/common/variables';
+
+.button {
+  background-color: $gray;
+  border: 1px solid $gray;
+  box-sizing: border-box;
+  color: $white;
+  cursor: pointer;
+  font-size: 15px;
+  padding: 10px 15px;
+  text-decoration: none;
+  transition: all 0.3s linear;
+  &:hover{
+    background-color: $light-gray;
+  }
+  &:focus{
+    outline: none;
+  }
+  &:active{
+    border: 1px inset $dark-gray;
+  }
+}

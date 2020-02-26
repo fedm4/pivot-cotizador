@@ -11,10 +11,11 @@ import {
   Route
 } from 'react-router-dom';
 import './App.scss';
+import Presupuestos from './pages/Presupuestos/Presupuestos';
 import Presupuesto from './pages/Presupuesto/Presupuesto';
 
 const DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
-const SCOPES = "https://www.googleapis.com/auth/spreadsheets";
+const SCOPES = "https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive";
 
 
 const App = () => {
@@ -44,6 +45,7 @@ const App = () => {
     }
   }
   const handleAuthClick = (event) => {
+    console.log(gapi)
     gapi.auth2.getAuthInstance().signIn();
   }
   const handleSignOutClick = (event) => {
@@ -72,6 +74,9 @@ const App = () => {
               <Switch>
                 <Route exact path="/">
                   <Test></Test>
+                </Route>
+                <Route exact path="/presupuestos">
+                  <Presupuestos></Presupuestos>
                 </Route>
                 <Route exact path="/presupuesto">
                   <Presupuesto></Presupuesto>

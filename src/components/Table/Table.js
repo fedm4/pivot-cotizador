@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './Table.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faCopy, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const Table = props =>{
     const editClick = (event,user) => {
@@ -22,8 +22,8 @@ const Table = props =>{
                     {props.columns.map(title => {
                             return <th key={title}>{title}</th>
                     })}
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <th>Nueva Version</th>
+                    <th>Eliminar</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,8 +35,8 @@ const Table = props =>{
                             })}
                             <td>
                                 <button onClick={event => {editClick(event, item)}}>
-                                    <FontAwesomeIcon className="edit-icon" icon={faEdit}></FontAwesomeIcon>
-                                </button>
+                                    <FontAwesomeIcon className="edit-icon" icon={faCopy}></FontAwesomeIcon>
+                                </button> 
                             </td>
                             <td>
                                 <button onClick={setClickedAnimation}>
