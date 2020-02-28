@@ -1,6 +1,29 @@
+@import '../../../../scss/common/variables';
+
 .data-form {
   display: flex;
   flex-wrap: wrap;
+  margin-bottom: 15px;
+  transition: all 0.3s linear;
+  overflow: hidden;
+  &.hidden {
+    height: 25px;
+    .title .icon {
+      transform: rotate(90deg);
+    }
+  }
+  .title {
+    color: $dark-gray;
+    width: 100%;
+    margin: 0;
+    .icon{
+      cursor: pointer;
+      display: inline-block;
+      margin-left: 5px;
+      transition: transform 0.3s linear;
+      transform: rotate(0deg);
+    }
+  }
 }
 .grid-item{
   box-sizing: border-box;

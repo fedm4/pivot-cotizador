@@ -38,3 +38,11 @@ main {
     }
   }
 }
+
+.fwidth-item{
+  display: block;
+  input, select{
+    box-sizing: border-box;
+    width: 100%;
+  }
+}

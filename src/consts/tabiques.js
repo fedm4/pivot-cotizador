@@ -1,10 +1,10 @@
 export default [
   {
-    label: "Bath 32 Macizos",
-    value: "bath32Macizos"
+    label: "Bath 32",
+    value: "bath32"
   },
   {
-    label: "Bath 32 Placas Reforzadas",
-    value: "bath32Reforzados"
+    label: "Bath 25",
+    value: "bath25"
   }
 ]

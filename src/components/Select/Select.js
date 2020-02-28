@@ -1,8 +1,9 @@
 import React from 'react';
+import './Select.scss';
 
-const Select = ({label, seleccionar, onChange, options}) => {
+const Select = ({label, seleccionar, onChange, options, className}) => {
   return(
-    <label>
+    <label className={className}>
           <span>{label}</span>
           <select onChange={e=>onChange(e)}>
             {

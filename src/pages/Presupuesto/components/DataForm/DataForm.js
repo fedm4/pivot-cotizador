@@ -2,18 +2,28 @@ import React, {useState} from 'react';
 import Input from '../../../../components/Input/Input';
 
 import './DataForm.scss';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { faChevronCircleRight } from '@fortawesome/free-solid-svg-icons';
 
 const DataForm = ({state, dispatch}) => {
-  const handleClick = e =>dispatch({type:'setData', payload: e.target.value, key: e.target.name});
+  const [hidden, setHidden] = useState(true);
+  const handleChange = e =>dispatch({type:'setData', payload: e.target.value, key: e.target.name});
   return (
-    <div className="data-form">
+    <div className={`data-form ${hidden?"hidden":""}`}>
+      <h3 className="title">
+        Datos
+        <span className="icon">
+          <FontAwesomeIcon onClick={e=>setHidden(!hidden)} icon={faChevronCircleRight} />
+        </span>
+      </h3>
       <Input
         name="cliente" 
         type="text"
         className="grid-item"
         placeholder="Cliente"
         label="Cliente"
-        handleChange={handleClick}
+        value={state.datos.cliente}
+        handleChange={handleChange}
       />
       <Input
         type="text"
@@ -21,7 +31,8 @@ const DataForm = ({state, dispatch}) => {
         className="grid-item"
         placeholder="Referencia"
         label="Referencia"
-        handleChange={handleClick}
+        value={state.datos.referencia}
+        handleChange={handleChange}
       />
       <Input
         type="text"
@@ -29,7 +40,8 @@ const DataForm = ({state, dispatch}) => {
         className="grid-item"
         placeholder="Destinatario"
         label="Destinatario"
-        handleChange={handleClick}
+        value={state.datos.destinatario}
+        handleChange={handleChange}
       />
       <Input
         type="email"
@@ -37,7 +49,8 @@ const DataForm = ({state, dispatch}) => {
         className="grid-item"
         placeholder="Email"
         label="Email"
-        handleChange={handleClick}
+        value={state.datos.email}
+        handleChange={handleChange}
       />
       <Input
         type="text"
@@ -45,7 +58,8 @@ const DataForm = ({state, dispatch}) => {
         className="grid-item"
         placeholder="Domicilio"
         label="Domicilio"
-        handleChange={handleClick}
+        value={state.datos.domicilio}
+        handleChange={handleChange}
       />
       <Input
         type="text"
@@ -53,7 +67,8 @@ const DataForm = ({state, dispatch}) => {
         className="grid-item"
         placeholder="N° de Presupuesto"
         label="N° de Presupuesto"
-        handleChange={handleClick}
+        value={state.datos.nroPresupuesto}
+        handleChange={handleChange}
       />
       <Input
         className="grid-item"
@@ -61,7 +76,8 @@ const DataForm = ({state, dispatch}) => {
         name="telefono"
         placeholder="Telefono"
         label="Telefono"
-        handleChange={handleClick}
+        value={state.datos.telefono}
+        handleChange={handleChange}
       />
       <Input
         className="grid-item"
@@ -69,7 +85,8 @@ const DataForm = ({state, dispatch}) => {
         name="obra"
         placeholder="Obra"
         label="Obra"
-        handleChange={handleClick}
+        value={state.datos.obra}
+        handleChange={handleChange}
       />
       <Input
         className="grid-item"
@@ -77,11 +94,12 @@ const DataForm = ({state, dispatch}) => {
         name="titulo"
         placeholder="Titulo"
         label="Titulo"
-        handleChange={handleClick}
+        value={state.datos.titulo}
+        handleChange={handleChange}
       />
       <label className="fwidth-item">
         <span>Bajada / Texto General</span>
-        <textarea onChange={e=>dispatch({type:'setData', payload: e.target.value, key: 'bajada'})}></textarea>
+        <textarea value={state.datos.bajada} onChange={e=>dispatch({type:'setData', payload: e.target.value, key: 'bajada'})}></textarea>
       </label>
       <label className="fwidth-item">
         <span>Pie</span>

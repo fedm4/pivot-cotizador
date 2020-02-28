@@ -1,8 +1,23 @@
 export default {
-  bath32Macizos: {
-    "1.50": "1-v1kFkOAoMqB4BywOKggUAw4iy57AG9XqU6uD2TMZLQ",
-  },
-  bath32Reforzados: {
-    "1.50": "1HVQOhljEoX_q6ztPIIt5t-9we9ymrjMxZDpbkatCigQ"
+  bath32: {
+    planilla: "1GnF7suymJaq-RjU4_B1ZJOIQf2I9rxgfRmwOxYDonEA",
+    modulos: [
+      {
+        modulo: "Divisorio Macizo",
+        hoja: "Macizos"
+      },
+      {
+        modulo: "Divisorio Placas Reforzadas",
+        hoja: "Reforzadas"
+      },
+      {
+        modulo: "Puerta",
+        hoja: "Puertas"
+      },
+      {
+        modulo: "Parante",
+        hoja: "Parantes"
+      }
+    ]
   }
 };
