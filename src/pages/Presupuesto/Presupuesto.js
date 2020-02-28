@@ -17,6 +17,15 @@ const reducer = (state, action) => {
       const sistemas = state.sistemas;
       sistemas.push({sistema: action.payload.sistema, referencia:action.payload.referencia, modulos: []});
       return {...state, sistemas};
+    case 'setModulo':
+      const clon = [...state.sistemas];
+      const index = clon.findIndex(item => {
+        return item.sistema === action.sistema.sistema &&
+          item.referencia === action.sistema.referencia 
+      });
+      if(index === -1 ) return state;
+      clon[index].modulos.push(action.payload);
+      return {...state, sistemas: clon};
     default:
       return state;
   }
@@ -27,14 +36,6 @@ const Presupuesto = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [sistemaModal, setSistemaModal] = useState(false);
   const {gapi} = useContext(Context);
-
-  /*useEffect(() => {
-        if(altura == null || tabique == null) return;
-        setPlanilla(Spreadsheets[tabique][altura]);
-  }, [tabique, altura]);
-  useEffect(()=>{
-    getAnchos(gapi, setAnchos, planilla);
-  },[planilla]);*/
 
   return (
     <Panel title="Presupuesto">
@@ -47,7 +48,7 @@ const Presupuesto = () => {
           dispatch={dispatch} 
         />
         {
-          state.sistemas.map(sistema => <Sistema key={`${sistema.sistema}${sistema.referencia}`} sistema={sistema}/>)
+          state.sistemas.map(sistema => <Sistema key={`${sistema.sistema}${sistema.referencia}`} sistema={sistema} dispatch={dispatch}/>)
         }
         <div className="flex justify-flex-end flex-align-center">
           <Button

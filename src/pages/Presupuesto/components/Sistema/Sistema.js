@@ -6,7 +6,7 @@ import Table from '../../../../components/Table/Table';
 import Button from '../../../../components/Button/Button';
 import ModuloModal from '../ModuloModal/ModuloModal';
 
-const Sistema = ({sistema}) => {
+const Sistema = ({sistema, dispatch}) => {
   const [moduloModal, setModuloModal] = useState(false);
   const {hiddenClass, toggleHidden, Icon} = useMinimizer(false);
   return (
@@ -17,15 +17,15 @@ const Sistema = ({sistema}) => {
       </h3>
       <Table
         delete={true}
-        columns={["Cantidad", "Modulo", "Alto", "Ancho", "Precio Unitario", "Precio Final"]}
-        data={[]}
+        columns={["Modulo", "Cantidad", "Alto", "Ancho", "Variable", "Precio Unitario", "Precio Final"]}
+        data={sistema.modulos}
       />
       <div className="flex justify-flex-end flex-align-center mt-25">
         <Button
           handleOnClick={()=>{setModuloModal(true)}}
         >Agregar Modulo</Button>
       </div>
-      <ModuloModal sistema={sistema.sistema} isOpen={moduloModal} setIsOpen={setModuloModal} />
+      <ModuloModal dispatch={dispatch} sistema={sistema} isOpen={moduloModal} setIsOpen={setModuloModal} />
     </section>
   );
 };

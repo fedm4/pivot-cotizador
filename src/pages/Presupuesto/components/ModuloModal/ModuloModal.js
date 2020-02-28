@@ -24,8 +24,8 @@ const ModuloModal = ({sistema, isOpen, setIsOpen, state, dispatch}) => {
   const {gapi} = useContext(Context);
 
   useEffect(() => {
-    setPlanilla(Spreadsheets[sistema].planilla);
-    setModulos(Spreadsheets[sistema].modulos.map(mod=>({label:mod.modulo, value:mod.hoja})));
+    setPlanilla(Spreadsheets[sistema.sistema].planilla);
+    setModulos(Spreadsheets[sistema.sistema].modulos.map(mod=>({label:mod.modulo, value:mod.hoja})));
   }, []);
 
   useEffect(() => {
@@ -33,25 +33,55 @@ const ModuloModal = ({sistema, isOpen, setIsOpen, state, dispatch}) => {
     getAltos(gapi, setAltos, planilla, modulo);
   }, [modulo]);
 
+  useEffect(() => {
+    if(alto === null) return;
+    getAnchos(gapi, alto, setAnchos, planilla, modulo);
+  }, [alto])
+
+  useEffect(() => {
+    if(ancho === null || alto === null) return;
+    getPrecio(gapi, ancho, planilla, modulo, setPrecioUnitario, alto);
+  }, [ancho, alto])
+
+  useEffect(()=>{
+    setPrecioFinal(cantidad * precioUnitario);
+  }, [cantidad, precioUnitario]);
+
   //e=>getPrecio(gapi, ancho, planilla, setPrecio)
   const handleClick = e => {
-    dispatch({type: 'setModulo', payload: {modulo,cantidad,alto,ancho,variable,precioUnitario,precioFinal}});
+    dispatch({type: 'setModulo', sistema, payload: {modulo,cantidad,alto,ancho,variable,precioUnitario,precioFinal}});
     setIsOpen(false);
   };
   
   return (
-    <Modal isOpen={isOpen} closeModal={()=>setIsOpen(false)} height="200px">
+    <Modal isOpen={isOpen} closeModal={()=>setIsOpen(false)} height="500px">
+      <Input 
+        className="fwidth-item"
+        type="text"
+        placeholder="Cantidad"
+        label="Cantidad"
+        handleChange={e=>setCantidad(e.target.value)}
+      />
       <Select
+        className="fwidth-item"
         label="Modulo"
         seleccionar={true}
         onChange={e=>setModulo(e.target.value)}
         options={modulos}
       />
       <Select
+        className="fwidth-item"
         label="Alto"
         seleccionar={true}
         onChange={e=>setAlto(e.target.value)}
         options={altos}
+      />
+      <Select
+        className="fwidth-item"
+        label="Ancho"
+        seleccionar={true}
+        onChange={e=>setAncho(e.target.value)}
+        options={anchos}
       />
       <Button handleOnClick={handleClick}>Guardar</Button>
     </Modal>

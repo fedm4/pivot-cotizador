@@ -15,6 +15,7 @@ const Table = props =>{
         element.classList.add("clicked");
         setTimeout(()=>{element.classList.remove("clicked")}, 300);
     }
+    console.log(props.data);
     return (
         <table className="table">
             <thead>
@@ -30,7 +31,7 @@ const Table = props =>{
                 {props.data.map((item, index) => {
                     return (
                         <tr key={`table-${index}`}>
-                            {props.columns.map(key =>{
+                            {Object.keys(item).map(key =>{
                                     return (<td key={`table-${index}-${key}`}>{item[key]}</td>);
                             })}
                             {
