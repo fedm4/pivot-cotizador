@@ -9,6 +9,7 @@ import DataForm from './components/DataForm/DataForm';
 import {initialState} from '../../consts/presupuesto';
 import SistemaModal from './components/SistemaModal/SistemaModal';
 import Button from '../../components/Button/Button';
+import Sistema from './components/Sistema/Sistema';
 
 const reducer = (state, action) => {
   switch(action.type) {
@@ -49,16 +50,20 @@ const Presupuesto = () => {
     <Panel title="Presupuesto">
       <form>
         <DataForm state={state} dispatch={dispatch}/>
-        <Button
-          handleOnClick={()=>{setSistemaModal(true)}}
-        >Agregar Sistema</Button>
         <SistemaModal
           isOpen={sistemaModal}
           setIsOpen={setSistemaModal}
           state={state}
           dispatch={dispatch} 
         />
-        
+        {
+          state.sistemas.map(sistema => <Sistema sistema={sistema}/>)
+        }
+        <div className="flex justify-flex-end flex-align-center">
+          <Button
+            handleOnClick={()=>{setSistemaModal(true)}}
+          >Agregar Sistema</Button>
+        </div>
         <Select
           label="Alto"
           seleccionar={true}

@@ -1,3 +1,7 @@
+@import './scss/common/variables';
+body {
+  color: $darker-gray;
+}
 body, button, a, h1,h2,h3,h4,h5,h6, input, textarea{
   font-family: 'Montserrat', sans-serif;
 }
@@ -47,3 +51,7 @@ main {
     width: 100%;
   }
 }
+
+.flex{ display: flex; }
+.justify-flex-end { justify-content: flex-end; }
+.flex-align-center { align-items: center; }
