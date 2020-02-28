@@ -25,15 +25,21 @@ const reducer = (state, action) => {
       });
       if(index === -1 ) return state;
       clon[index].modulos.push(action.payload);
-      return {...state, sistemas: clon};
+      const precioTotal = clon.reduce((acc, cur) => {
+        const curTotal = cur.modulos.reduce((acc, curMod) =>{
+          return acc + curMod.precioFinal;
+        }, 0);
+        return acc + curTotal;
+      }, 0);
+      return {...state, sistemas: clon, precioTotal};
     default:
       return state;
   }
 };
 
 const Presupuesto = () => {
-
-  const [state, dispatch] = useReducer(reducer, initialState);
+  console.log(initialState);
+  const [state, dispatch] = useReducer(reducer, JSON.parse(JSON.stringify(initialState)));
   const [sistemaModal, setSistemaModal] = useState(false);
   const {gapi} = useContext(Context);
 
@@ -50,6 +56,9 @@ const Presupuesto = () => {
         {
           state.sistemas.map(sistema => <Sistema key={`${sistema.sistema}${sistema.referencia}`} sistema={sistema} dispatch={dispatch}/>)
         }
+        <div className="flex justify-flex-end flex-align-center">
+          <h4>Precio Total: ${state.precioTotal}</h4>
+        </div>
         <div className="flex justify-flex-end flex-align-center">
           <Button
             handleOnClick={()=>{setSistemaModal(true)}}

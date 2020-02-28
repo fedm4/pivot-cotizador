@@ -1,6 +1,9 @@
+@import '../../scss/common/variables';
+
 #main-header{
   align-items: center;
-  background-color: #ea2f2f;
+  background-color: white;
+  box-shadow: 0 5px 5px $lighter-gray;
   display: flex;
   height: 80px;
   justify-content: space-between;

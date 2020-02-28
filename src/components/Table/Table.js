@@ -15,7 +15,6 @@ const Table = props =>{
         element.classList.add("clicked");
         setTimeout(()=>{element.classList.remove("clicked")}, 300);
     }
-    console.log(props.data);
     return (
         <table className="table">
             <thead>
