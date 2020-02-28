@@ -6,26 +6,6 @@
   margin-bottom: 15px;
   transition: all 0.3s linear;
   overflow: hidden;
-  &.hidden {
-    height: 25px;
-    .title .icon {
-      transform: rotate(0deg);
-    }
-  }
-  .title {
-    box-sizing: border-box;
-    color: $dark-gray;
-    margin: 0;
-    padding: 0 10px;
-    width: 100%;
-    .icon{
-      cursor: pointer;
-      display: inline-block;
-      margin-left: 5px;
-      transition: transform 0.3s linear;
-      transform: rotate(90deg);
-    }
-  }
 }
 .grid-item{
   box-sizing: border-box;

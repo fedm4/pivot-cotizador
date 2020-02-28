@@ -2,21 +2,18 @@ import React, {useState} from 'react';
 import Input from '../../../../components/Input/Input';
 
 import './DataForm.scss';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import { faChevronCircleRight } from '@fortawesome/free-solid-svg-icons';
+
 import useMinimizer from '../../../../hooks/useMinimizer';
 
 const DataForm = ({state, dispatch}) => {
   const [hidden, setHidden] = useState(true);
-  const {hiddenClass, toggleHidden} = useMinimizer(true);
+  const {hiddenClass, toggleHidden, Icon} = useMinimizer(true);
   const handleChange = e =>dispatch({type:'setData', payload: e.target.value, key: e.target.name});
   return (
     <div className={`data-form ${hiddenClass}`}>
       <h3 className="title">
         Datos
-        <span className="icon">
-          <FontAwesomeIcon onClick={toggleHidden} icon={faChevronCircleRight} />
-        </span>
+        <Icon />
       </h3>
       <Input
         name="cliente" 

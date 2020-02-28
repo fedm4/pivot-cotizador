@@ -1,0 +1,21 @@
+@import '../../scss/common/variables';
+.hidden {
+  height: 25px;
+  .title .icon {
+    transform: rotate(0deg);
+  }
+}
+.title {
+  box-sizing: border-box;
+  color: $dark-gray;
+  margin: 0;
+  padding: 0 10px;
+  width: 100%;
+  .icon{
+    cursor: pointer;
+    display: inline-block;
+    margin-left: 5px;
+    transition: transform 0.3s linear;
+    transform: rotate(90deg);
+  }
+}
