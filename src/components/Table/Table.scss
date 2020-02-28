@@ -4,9 +4,9 @@
     border-collapse: collapse;
     width: 100%;
     thead{
-        border-top: 1px solid $lighter-gray;
-        border-left: 1px solid $lighter-gray;
-        border-right: 1px solid $lighter-gray;
+        border-top: 1px solid lighten($lighter-gray, 20);
+        //border-left: 1px solid $lighter-gray;
+        //border-right: 1px solid $lighter-gray;
         box-shadow: 0 5px 5px $lighter-gray;
         th{
             color: $dark-gray;

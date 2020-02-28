@@ -22,8 +22,8 @@ const Table = props =>{
                     {props.columns.map(title => {
                             return <th key={title}>{title}</th>
                     })}
-                    <th>Nueva Version</th>
-                    <th>Eliminar</th>
+                    {props.edit?<th>Nueva Version</th>:null}
+                    {props.delete?<th>Eliminar</th>:null}
                 </tr>
             </thead>
             <tbody>
@@ -33,16 +33,24 @@ const Table = props =>{
                             {props.columns.map(key =>{
                                     return (<td key={`table-${index}-${key}`}>{item[key]}</td>);
                             })}
-                            <td>
-                                <button onClick={event => {editClick(event, item)}}>
-                                    <FontAwesomeIcon className="edit-icon" icon={faCopy}></FontAwesomeIcon>
-                                </button> 
-                            </td>
-                            <td>
-                                <button onClick={setClickedAnimation}>
-                                    <FontAwesomeIcon className="delete-icon" icon={faTimes}></FontAwesomeIcon>
-                                </button>
-                            </td>
+                            {
+                                props.edit?
+                                <td>
+                                    <button onClick={event => {editClick(event, item)}}>
+                                        <FontAwesomeIcon className="edit-icon" icon={faCopy}></FontAwesomeIcon>
+                                    </button> 
+                                </td>
+                                :null
+                            }
+                            {
+                                props.delete?
+                                <td>
+                                    <button onClick={setClickedAnimation}>
+                                        <FontAwesomeIcon className="delete-icon" icon={faTimes}></FontAwesomeIcon>
+                                    </button>
+                                </td>
+                                :null
+                            }
                         </tr>
                     )
                 })}
@@ -50,10 +58,5 @@ const Table = props =>{
         </table>
     );
 };
-
-Table.propTypes = {
-    edit: PropTypes.func.isRequired
-};
-
 
 export default Table;

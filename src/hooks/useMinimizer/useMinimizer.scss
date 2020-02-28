@@ -1,6 +1,7 @@
 @import '../../scss/common/variables';
 .hidden {
   height: 25px;
+  overflow: hidden;
   .title .icon {
     transform: rotate(0deg);
   }
@@ -8,7 +9,7 @@
 .title {
   box-sizing: border-box;
   color: $dark-gray;
-  margin: 0;
+  margin: 0 0 20px 0;
   padding: 0 10px;
   width: 100%;
   .icon{
