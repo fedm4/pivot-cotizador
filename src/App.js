@@ -22,8 +22,6 @@ const SCOPES = "https://www.googleapis.com/auth/spreadsheets https://www.googlea
 
 
 const App = () => {
-  console.log(process.env.REACT_APP_GAPPS_CLIENT_ID);
-
   const gapi = window.gapi;
 
   useEffect(()=>{
