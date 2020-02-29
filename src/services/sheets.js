@@ -1,3 +1,5 @@
+
+import {round} from '../helpers/math';
 const removeDuplicatesAndOrder = arr => {
   return arr.reduce((acc, current) => {
     const x = acc.find(item => item.label === current.label);
@@ -54,7 +56,7 @@ export const getPrecio = async (gapi, ancho, planilla, hoja, setPrecio, alto) =>
       range: `${hoja}!B23:AE108`,
     });
     const fila = results.result.values.filter(fila=> fila[1] == ancho && fila[0]==alto)[0];
-    setPrecio(fila[PRICE_INDEX]);
+    setPrecio(round(fila[PRICE_INDEX]));
   } catch (err) {
     throw err;
   }

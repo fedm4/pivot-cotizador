@@ -13,7 +13,7 @@ const SistemaModal = ({isOpen, setIsOpen, state, dispatch}) => {
     setIsOpen(false);
   }
   return (
-    <Modal isOpen={isOpen} closeModal={()=>setIsOpen(false)} height="200px">
+    <Modal isOpen={isOpen} closeModal={()=>setIsOpen(false)} height="250px">
       <Select
         className="fwidth-item"
         label="Tabique"
@@ -28,7 +28,7 @@ const SistemaModal = ({isOpen, setIsOpen, state, dispatch}) => {
         label="Referencia"
         handleChange={e=>setReferencia(e.target.value)}
       />
-      <Button handleOnClick={handleClick}>Guardar</Button>
+      <Button color="blue" handleOnClick={handleClick}>Guardar</Button>
     </Modal>
   );
 };

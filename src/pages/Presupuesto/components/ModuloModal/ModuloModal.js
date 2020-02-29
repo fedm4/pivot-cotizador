@@ -6,6 +6,7 @@ import Button from '../../../../components/Button/Button';
 import Input from '../../../../components/Input/Input';
 import {getAnchos, getPrecio, getAltos } from '../../../../services/sheets';
 import Spreadsheets from '../../../../consts/spreadsheets';
+import {round} from '../../../../helpers/math';
 
 const ModuloModal = ({sistema, isOpen, setIsOpen, state, dispatch}) => {
   const [modulo, setModulo] = useState(null);
@@ -45,7 +46,7 @@ const ModuloModal = ({sistema, isOpen, setIsOpen, state, dispatch}) => {
 
   useEffect(()=>{
     const variableFix = !variable ? 1 : variable;
-    setPrecioFinal(cantidad * precioUnitario * variableFix);
+    setPrecioFinal(round(cantidad * precioUnitario * variableFix));
   }, [cantidad, precioUnitario, variable]);
 
   //e=>getPrecio(gapi, ancho, planilla, setPrecio)

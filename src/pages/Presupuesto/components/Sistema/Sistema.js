@@ -34,7 +34,12 @@ const Sistema = ({sistema, dispatch}) => {
           {getTabiqueLabel(sistema.sistema)} - {sistema.referencia}
           <Icon />
         </div>
-        <FontAwesomeIcon icon={faTrash} />
+        <Button
+          color="red"
+          handleOnClick={e=>dispatch({type:'deleteSistema', sistema: sistema.sistema, referencia: sistema.referencia})}
+        >
+          <FontAwesomeIcon icon={faTrash} />
+        </Button>
       </h3>
       <Table
         delete={deleteModulo}

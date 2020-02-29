@@ -1,12 +1,13 @@
+@import '../../scss/common/variables';
 .sidebar {
-  background-color: #333333;
+  background-color: $darker-gray;
   box-sizing: border-box;
   min-height: calc(100vh - 80px);
   width: 150px;
   padding-top: 15px;
   .sidebar-nav {
     a {
-      border-left: 0 solid #ea2f2f;
+      border-left: 0 solid $red;
       box-sizing: border-box;
       color: white;
       text-decoration: none;
@@ -15,10 +16,10 @@
       display: inline-block;
       margin-top: 15px;
       transition: all 0.3s linear; 
-      &:hover{
+      &.active, &:hover{
         color: #ea2f2f;
         padding-left: 10px;
-        border-left: 5px solid #ea2f2f;
+        border-left: 5px solid $red;
       }
     }
   }

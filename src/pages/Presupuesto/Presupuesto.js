@@ -13,7 +13,8 @@ import {
   getPrecioTotal,
   getSistemaIndex,
   setModulo,
-  getDeleteModuloData
+  getDeleteModuloData,
+  deleteSistema
 } from '../../helpers/presupuestoReducerHelper';
 
 
@@ -30,7 +31,7 @@ const reducer = (state, action) => {
     case 'setAllState':
       return action.payload;
     case 'deleteSistema':
-      return state;
+      return deleteSistema(state, action.sistema, action.referencia);
     case 'deleteModulo':
       return getDeleteModuloData(state, action);
     default:
