@@ -1,8 +1,0 @@
-const config = {
-  gappsClientId: ``,
-  gappsClientSecret: ``,
-  gappsApiKey: ``,
-  mongoConnection: ``
-};
-
-export default config;
