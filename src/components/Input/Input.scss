@@ -1,0 +1,9 @@
+@import '../../scss/common/variables';
+
+.input {
+  height: 30px;
+  padding-left: 10px;
+  &:focus{
+    outline-color: $blue;
+  }
+}

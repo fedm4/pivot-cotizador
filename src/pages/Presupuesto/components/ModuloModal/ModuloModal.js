@@ -44,8 +44,9 @@ const ModuloModal = ({sistema, isOpen, setIsOpen, state, dispatch}) => {
   }, [ancho, alto])
 
   useEffect(()=>{
-    setPrecioFinal(cantidad * precioUnitario);
-  }, [cantidad, precioUnitario]);
+    const variableFix = !variable ? 1 : variable;
+    setPrecioFinal(cantidad * precioUnitario * variableFix);
+  }, [cantidad, precioUnitario, variable]);
 
   //e=>getPrecio(gapi, ancho, planilla, setPrecio)
   const handleClick = e => {
@@ -54,7 +55,7 @@ const ModuloModal = ({sistema, isOpen, setIsOpen, state, dispatch}) => {
   };
   
   return (
-    <Modal isOpen={isOpen} closeModal={()=>setIsOpen(false)} height="500px">
+    <Modal isOpen={isOpen} closeModal={()=>setIsOpen(false)} height="450px">
       <Input 
         className="fwidth-item"
         type="text"
@@ -83,7 +84,14 @@ const ModuloModal = ({sistema, isOpen, setIsOpen, state, dispatch}) => {
         onChange={e=>setAncho(e.target.value)}
         options={anchos}
       />
-      <Button handleOnClick={handleClick}>Guardar</Button>
+      <Input
+        className="fwidth-item"
+        type="text"
+        placeholder="Variable"
+        label="Variable"
+        handleChange={e=>setVariable(e.target.value)}
+      />
+      <Button color="blue" handleOnClick={handleClick}>Guardar</Button>
     </Modal>
   );
 };

@@ -1,5 +1,6 @@
 import React, {useContext} from 'react';
 import MainContext from '../../context/MainContext';
+import Button from '../Button/Button';
 import './MainHeader.scss';
 import LogoPivot from '../../img/logo-pivot.jpg';
 
@@ -18,9 +19,10 @@ const MainHeader = () => {
         !isSignedIn ?
         null
         :
-        <button onClick={handleSignOutClick}
+        <Button handleOnClick={handleSignOutClick}
+          color="red"
           id="signout-button"
-          className="g-button">Sign Out</button>
+          className="g-button">Sign Out</Button>
       }
     </header>
   );

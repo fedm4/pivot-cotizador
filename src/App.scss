@@ -21,7 +21,7 @@ main {
   .connect-modal {
     box-sizing: border-box;
     position: fixed;
-    width: 250px;
+    width: 350px;
     height: 150px;
     background-color: #FFFFFF;
     padding: 25px;
@@ -54,5 +54,7 @@ main {
 
 .flex{ display: flex; }
 .justify-flex-end { justify-content: flex-end; }
+.justify-space-between {justify-content: space-between;}
 .flex-align-center { align-items: center; }
 .mt-25 {margin-top: 25px;}
+.ml-15 {margin-left: 15px;}

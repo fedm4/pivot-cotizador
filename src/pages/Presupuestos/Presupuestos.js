@@ -3,13 +3,15 @@ import Table from '../../components/Table/Table';
 import Panel from '../../components/Panel/Panel';
 import Button from '../../components/Button/Button';
 import './Presupuestos.scss';
+import {Link} from 'react-router-dom';
 
 const Presupuestos = () => {
   return (
     <Panel title="Presupuestos">
       <Table columns={['no', 'cliente']} data={[{no:1, cliente: "IRSA"}]} edit={e=>{}} />
       <footer className="presupuestos-footer">
-        <Button handleClick={e=>{}} link="/presupuesto">Nuevo</Button>
+        <Button link="/borradores" color="yellow">Ver Borradores</Button>
+        <Button color="green" className="ml-15" handleClick={e=>{}} link="/presupuesto">Nuevo</Button>
       </footer>
     </Panel>
     );

@@ -3,6 +3,7 @@ import MainHeader from './components/MainHeader/MainHeader';
 import MainContext from './context/MainContext';
 import config from './config/config';
 import Sidebar from './components/Sidebar/Sidebar';
+import Button from './components/Button/Button';
 import Test from './components/Test/Test';
 import PivotLogo from './img/logo-pivot.jpg';
 import {
@@ -13,6 +14,8 @@ import {
 import './App.scss';
 import Presupuestos from './pages/Presupuestos/Presupuestos';
 import Presupuesto from './pages/Presupuesto/Presupuesto';
+import Borradores from './pages/Borradores/Borradores';
+
 
 const DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
 const SCOPES = "https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive";
@@ -81,6 +84,12 @@ const App = () => {
                 <Route exact path="/presupuesto">
                   <Presupuesto></Presupuesto>
                 </Route>
+                <Route exact path="/borradores">
+                  <Borradores></Borradores>
+                </Route>
+                <Route exact path="/borrador/:nroPresupuesto">
+                  <Presupuesto></Presupuesto>
+                </Route>
               </Switch>
             </section>
           </BrowserRouter>
@@ -90,9 +99,9 @@ const App = () => {
       <div className="overlay">
         <section className="connect-modal">
           <img src={PivotLogo} />
-          <button type="button" onClick={handleAuthClick}>
+          <Button type="button" handleOnClick={handleAuthClick} color="green">
             Conectar usando Google
-          </button>
+          </Button>
         </section>
       </div>
     }

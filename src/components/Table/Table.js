@@ -3,17 +3,22 @@ import PropTypes from 'prop-types';
 import './Table.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy, faTimes } from '@fortawesome/free-solid-svg-icons';
+import {Link} from 'react-router-dom';
 
 const Table = props =>{
     const editClick = (event,user) => {
         setClickedAnimation(event);
         props.edit(user);
     };
-    const setClickedAnimation = event =>{
+    const deleteClick = async (event, data) => {
+        await setClickedAnimation(event);
+        setTimeout(() => props.delete(data), 300);
+    }
+    const setClickedAnimation = async event =>{
         event.preventDefault();
         const element = event.currentTarget.children[0];
         element.classList.add("clicked");
-        setTimeout(()=>{element.classList.remove("clicked")}, 300);
+        await setTimeout(()=>{element.classList.remove("clicked")}, 300);
     }
     return (
         <table className="table">
@@ -22,7 +27,8 @@ const Table = props =>{
                     {props.columns.map(title => {
                             return <th key={title}>{title}</th>
                     })}
-                    {props.edit?<th>Nueva Version</th>:null}
+                    {props.edit || props.editLink?<th>Editar</th>:null}
+
                     {props.delete?<th>Eliminar</th>:null}
                 </tr>
             </thead>
@@ -43,9 +49,18 @@ const Table = props =>{
                                 :null
                             }
                             {
+                                props.editLink ?
+                                <td>
+                                    <Link to={`${props.editLink.to}${item[props.editLink.key]}`}>
+                                        <FontAwesomeIcon className="edit-icon" icon={faCopy}></FontAwesomeIcon>
+                                    </Link>
+                                </td>
+                                :null
+                            }
+                            {
                                 props.delete?
                                 <td>
-                                    <button onClick={setClickedAnimation}>
+                                    <button onClick={e=>deleteClick(e, item)}>
                                         <FontAwesomeIcon className="delete-icon" icon={faTimes}></FontAwesomeIcon>
                                     </button>
                                 </td>

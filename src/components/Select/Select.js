@@ -5,7 +5,7 @@ const Select = ({label, seleccionar, onChange, options, className}) => {
   return(
     <label className={className}>
           <span>{label}</span>
-          <select onChange={e=>onChange(e)}>
+          <select className={`select`} onChange={e=>onChange(e)} disabled={options.length === 0?"disabled":""}>
             {
               seleccionar ?
               <option>- Seleccionar -</option>

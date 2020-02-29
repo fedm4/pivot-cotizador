@@ -6,6 +6,7 @@ const Input = ({value, handleChange, label, placeholder, type, className, name})
     <label className={className}>
       <span className="label">{label}</span>
       <input
+        className="input"
         name={name}
         placeholder={placeholder}
         type={type}
