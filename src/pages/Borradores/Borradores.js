@@ -8,7 +8,9 @@ const Borradores = () => {
   const [borradores, setBorradores] = useState([]);
   const [lista, setLista] = useState([]);
   useEffect(()=>{
-    setBorradores(JSON.parse(localStorage.getItem("borradores")));
+    const borradores = JSON.parse(localStorage.getItem("borradores"));
+    if(!borradores) return;
+    setBorradores(borradores);
   }, []);
   useEffect(()=>{
     const lista = borradores.map(borrador => {
