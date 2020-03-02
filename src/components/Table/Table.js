@@ -51,7 +51,7 @@ const Table = props =>{
                             {
                                 props.editLink ?
                                 <td>
-                                    <Link to={`${props.editLink.to}${item[props.editLink.key]}`}>
+                                    <Link to={`${props.editLink.to}${encodeURIComponent(item[props.editLink.key])}`}>
                                         <FontAwesomeIcon className="edit-icon" icon={faCopy}></FontAwesomeIcon>
                                     </Link>
                                 </td>

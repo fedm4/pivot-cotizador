@@ -8,7 +8,7 @@ import {Link} from 'react-router-dom';
 const Presupuestos = () => {
   return (
     <Panel title="Presupuestos">
-      <Table columns={['no', 'cliente']} data={[{no:1, cliente: "IRSA"}]} edit={e=>{}} />
+      <Table columns={['no', 'cliente']} data={[]} edit={e=>{}} />
       <footer className="presupuestos-footer">
         <Button link="/borradores" color="yellow">Ver Borradores</Button>
         <Button color="green" className="ml-15" handleClick={e=>{}} link="/presupuesto">Nuevo</Button>

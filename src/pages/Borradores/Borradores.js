@@ -21,9 +21,24 @@ const Borradores = () => {
     });
     setLista(lista);
   }, [borradores]);
+
+  const deleteBorrador = data => {
+    const clon = [...borradores];
+    const index = clon.findIndex(borrador => borrador.datos.nroPresupuesto === data.nroPresupuesto);
+    if(index === -1) return;
+    clon.splice(index, 1);
+    setBorradores(clon);
+    localStorage.setItem("borradores", JSON.stringify(clon));
+  };
+
   return (
     <Panel title="Borradores">
-      <Table columns={['Nro Presupuesto', 'Cliente']} data={lista} editLink={{to:"/borrador/", key: "nroPresupuesto"}} />
+      <Table
+        columns={['Nro Presupuesto', 'Cliente']}
+        data={lista}
+        editLink={{to:"/borrador/", key: "nroPresupuesto"}}
+        delete={deleteBorrador}
+      />
     </Panel>
     );
 }

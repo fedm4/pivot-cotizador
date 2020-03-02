@@ -45,12 +45,13 @@ const Presupuesto = () => {
   const [state, dispatch] = useReducer(reducer, JSON.parse(JSON.stringify(initialState)));
   const [sistemaModal, setSistemaModal] = useState(false);
   const {gapi} = useContext(Context);
+  const decodedNroPresupuesto = decodeURIComponent(nroPresupuesto);
   
   useEffect(() => {
-    if(nroPresupuesto) {
+    if(decodedNroPresupuesto) {
       const borradores = JSON.parse(localStorage.getItem("borradores"));
       if(borradores) {
-        const indexBorrador = borradores.findIndex(borrador=>borrador.datos.nroPresupuesto === nroPresupuesto);
+        const indexBorrador = borradores.findIndex(borrador=>borrador.datos.nroPresupuesto === decodedNroPresupuesto);
         if(indexBorrador !== -1) {
           dispatch({type: 'setAllState', payload: borradores[indexBorrador]});
         }
