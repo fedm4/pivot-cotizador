@@ -29,6 +29,16 @@ const ModuloModal = ({sistema, isOpen, setIsOpen, state, dispatch}) => {
     setModulos(Spreadsheets[sistema.sistema].modulos.map(mod=>({label:mod.modulo, value:mod.hoja})));
   }, []);
 
+  useEffect(()=>{
+    if(!isOpen) {
+      setAlto(null);
+      setAncho(null);
+      setModulo(null);
+      setAltos([]);
+      setAnchos([]);
+    }
+  }, [isOpen])
+
   useEffect(() => {
     if(modulo===null) return;
     getAltos(gapi, setAltos, planilla, modulo);

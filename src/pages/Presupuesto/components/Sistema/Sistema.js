@@ -29,7 +29,7 @@ const Sistema = ({sistema, dispatch}) => {
 
   return (
     <section className={`section-sistema ${hiddenClass}`}>
-      <h3 className="title flex justify-space-between">
+      <h3 className="title flex justify-space-between flex-align-center">
         <div>
           {getTabiqueLabel(sistema.sistema)} - {sistema.referencia}
           <Icon />
