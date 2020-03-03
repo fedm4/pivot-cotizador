@@ -19,11 +19,11 @@ const Presupuestos = () => {
       }).then(response => {
         console.log(response);
         const data = response.result.items.map(item => {
-          const [nroPresupuesto, cliente, fecha] = item.title.split('-');
+          const [nroPresupuesto, cliente, ...fecha] = item.title.split('-');
           return {
             nroPresupuesto,
             cliente, 
-            fecha,
+            fecha: fecha.join('-').replace("T", " "),
             link: (<a href={`${item.alternateLink}`}><FontAwesomeIcon icon={faCopy} /></a>)
           }
         });
