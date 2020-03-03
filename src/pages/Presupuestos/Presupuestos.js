@@ -23,6 +23,7 @@ const Presupuestos = () => {
           return {
             nroPresupuesto,
             cliente, 
+            fecha,
             link: (<a href={`${item.alternateLink}`}><FontAwesomeIcon icon={faCopy} /></a>)
           }
         });
@@ -32,7 +33,7 @@ const Presupuestos = () => {
   }, []);
   return (
     <Panel title="Presupuestos">
-      <Table columns={['No Presupuesto', 'Cliente', "Descargar"]} data={lista} edit={false} />
+      <Table columns={['No Presupuesto', 'Cliente', "Fecha", "Descargar"]} data={lista} edit={false} />
       <footer className="presupuestos-footer">
         <Button link="/borradores" color="yellow">Ver Borradores</Button>
         <Button color="green" className="ml-15" handleClick={e=>{}} link="/presupuesto">Nuevo</Button>
