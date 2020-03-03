@@ -24,11 +24,17 @@
     &:hover{
       background-color: darken($yellow, 10);
     }
+    &.disabled {
+      background-color: lighten($yellow, 20);
+    }
   }
   &.green {
     background-color: $green;
     &:hover{
       background-color: darken($green, 10);
+    }
+    &.disabled {
+      background-color: lighten($green, 20);
     }
   }
   &.red {
@@ -36,11 +42,17 @@
     &:hover{
       background-color: darken($red, 10);
     }
+    &.disabled {
+      background-color: lighten($red, 20);
+    }
   }
   &.blue {
     background-color: $blue;
     &:hover{
       background-color: darken($blue, 10);
+    }
+    &.disabled {
+      background-color: lighten($blue, 20);
     }
   }
 }

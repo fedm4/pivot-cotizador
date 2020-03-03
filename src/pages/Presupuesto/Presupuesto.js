@@ -3,7 +3,7 @@ import {useParams} from 'react-router-dom';
 import Panel from '../../components/Panel/Panel';
 import Context from '../../context/MainContext';
 import Spreadsheets from '../../consts/spreadsheets';
-import {getAnchos, getPrecio } from '../../services/sheets';
+import {getAnchos, getPrecio, createPresupuestoFile } from '../../services/sheets';
 import DataForm from './components/DataForm/DataForm';
 import {initialState} from '../../consts/presupuesto';
 import SistemaModal from './components/SistemaModal/SistemaModal';
@@ -44,6 +44,7 @@ const Presupuesto = () => {
   const {nroPresupuesto} = useParams();
   const [state, dispatch] = useReducer(reducer, JSON.parse(JSON.stringify(initialState)));
   const [sistemaModal, setSistemaModal] = useState(false);
+  const [writing, setWriting] = useState(false);
   const {gapi} = useContext(Context);
   const decodedNroPresupuesto = decodeURIComponent(nroPresupuesto);
   
@@ -77,6 +78,11 @@ const Presupuesto = () => {
     localStorage.setItem("borradores", JSON.stringify(borradores));
     alert("Borrador Guardado");
   };
+
+  const handleGenerarPresupuesto = async () => {
+    setWriting(true);
+    await createPresupuestoFile(gapi, state, setWriting);
+  };
   return (
     <Panel title="Presupuesto">
       <form>
@@ -104,9 +110,10 @@ const Presupuesto = () => {
             handleOnClick={()=>{guardarBorrador()}}
           >Guardar Borrador</Button>
           <Button
+            disabled={writing?'disabled':''}
             className="ml-15"
             color="blue"
-            handleOnClick={()=>{}}
+            handleOnClick={handleGenerarPresupuesto}
           >Generar Presupuesto</Button>
         </div>
       </form>
