@@ -76,7 +76,7 @@ const App = () => {
             <section className="main-content">
               <Switch>
                 <Route exact path="/">
-                  <Test></Test>
+                  <Presupuestos></Presupuestos>
                 </Route>
                 <Route exact path="/presupuestos">
                   <Presupuestos></Presupuestos>
