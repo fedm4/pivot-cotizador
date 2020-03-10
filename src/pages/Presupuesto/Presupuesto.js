@@ -9,12 +9,14 @@ import {initialState} from '../../consts/presupuesto';
 import SistemaModal from './components/SistemaModal/SistemaModal';
 import Button from '../../components/Button/Button';
 import Sistema from './components/Sistema/Sistema';
+import PulseLoader from '../../components/PulseLoader/PulseLoader';
 import {
   getPrecioTotal,
   getSistemaIndex,
   setModulo,
   getDeleteModuloData,
-  deleteSistema
+  deleteSistema,
+  getPrecioTotalUpdate,
 } from '../../helpers/presupuestoReducerHelper';
 
 
@@ -34,6 +36,8 @@ const reducer = (state, action) => {
       return deleteSistema(state, action.sistema, action.referencia);
     case 'deleteModulo':
       return getDeleteModuloData(state, action);
+    case 'setPrecioTotal':
+      return getPrecioTotalUpdate({...state});
     default:
       return state;
   }
@@ -60,6 +64,11 @@ const Presupuesto = () => {
     }
   }, []);
 
+  useEffect(() => {
+    console.log("update marcacion")
+    dispatch({type: 'setPrecioTotal'});
+  }, [state.datos.marcacion])
+
   const guardarBorrador = ()=>{
     if(state.datos.nroPresupuesto === ""){
       alert("Necesita Nro de Presupuesto para guardar borrador");
@@ -85,6 +94,7 @@ const Presupuesto = () => {
   };
   return (
     <Panel title="Presupuesto">
+      <PulseLoader show={writing}></PulseLoader>
       <form>
         <DataForm state={state} dispatch={dispatch}/>
         <SistemaModal

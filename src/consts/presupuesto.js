@@ -18,7 +18,8 @@ export const initialState = {
     obra: "",
     titulo: "",
     bajada: "",
-    pie: footerTextTemplate
+    pie: footerTextTemplate,
+    maracacion: 1
   },
   sistemas: [
     /*{

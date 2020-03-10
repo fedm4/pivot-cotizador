@@ -96,6 +96,15 @@ const DataForm = ({state, dispatch}) => {
         value={state.datos.titulo}
         handleChange={handleChange}
       />
+      <Input
+        className="grid-item"
+        type="text"
+        name="marcacion"
+        placeholder="1.25"
+        label="Marcación"
+        value={state.datos.marcacion}
+        handleChange={handleChange}
+      />
       <label className="fwidth-item">
         <span>Bajada / Texto General</span>
         <textarea value={state.datos.bajada} onChange={e=>dispatch({type:'setData', payload: e.target.value, key: 'bajada'})}></textarea>
