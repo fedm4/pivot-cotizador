@@ -1,0 +1,21 @@
+#login-form {
+    align-items:center;
+    background-color: white;
+    box-shadow: 0 0 4px #666;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    left: calc(50vw - 225px);
+    max-width: 450px;
+    padding: 25px;
+    position: fixed;
+    .login-input {
+        display: block;
+        margin-bottom: 20px;
+        width: 100%;
+        input {
+            width: 100%;
+        }
+    }
+}
