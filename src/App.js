@@ -30,9 +30,19 @@ const App = () => {
 
   useEffect(()=>{
     handleClientLoad();
-    firebase.onAuthStateChanged(user => setUser(user));
+    firebase.onAuthStateChanged(user => {
+      if(user && user.email){
+        setUser({
+          debug: user,
+          email: user.email,
+          emailVerified: user.emailVerified
+        })
+      }else {
+        setUser(null);
+      }
+    });
   }, []);
-  
+  useEffect(()=>console.log(user), [user]);
   return (
     <MainContext.Provider
       value={

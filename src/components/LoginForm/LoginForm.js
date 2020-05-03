@@ -23,29 +23,34 @@ const LoginForm = () => {
         <React.Fragment>
             <div className="overlay"></div>
             <animated.form style={formProps} id="login-form">
-                <Input value={email}
-                    handleChange={e => setEmail(e.target.value)}
-                    label="Email"
-                    placeholder="email@pivot.com.ar"
-                    type="email"
-                    className="login-input"
-                    name="email"
-                />
-                <Input value={password}
-                    handleChange={e => setPassword(e.target.value)}
-                    label="Password"
-                    placeholder="Password"
-                    type="password"
-                    className="login-input"
-                    name="password"
-                />
-                <Button
-                    handleOnClick={doLogin}
-                    color="green"
-                    className="login-button"
-                >
-                    Ingresar
-                </Button>
+                <header className="login-header">
+                    <h1>Login</h1>
+                </header>
+                <div className="inputs-container">
+                    <Input value={email}
+                        handleChange={e => setEmail(e.target.value)}
+                        label="Email"
+                        placeholder="email@pivot.com.ar"
+                        type="email"
+                        className="login-input"
+                        name="email"
+                    />
+                    <Input value={password}
+                        handleChange={e => setPassword(e.target.value)}
+                        label="Password"
+                        placeholder="Password"
+                        type="password"
+                        className="login-input"
+                        name="password"
+                    />
+                    <Button
+                        handleOnClick={doLogin}
+                        color="green"
+                        className="login-button"
+                    >
+                        Ingresar
+                    </Button>
+                </div>
             </animated.form>
         </React.Fragment>
     )

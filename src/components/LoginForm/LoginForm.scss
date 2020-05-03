@@ -1,20 +1,38 @@
+@import '../../scss/common/variables';
+
 #login-form {
-    align-items:center;
     background-color: white;
     box-shadow: 0 0 4px #666;
     box-sizing: border-box;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    left: calc(50vw - 225px);
-    max-width: 450px;
-    padding: 25px;
+    left: calc(50vw - 175px);
+    max-width: 350px;
     position: fixed;
-    .login-input {
-        display: block;
-        margin-bottom: 20px;
-        width: 100%;
-        input {
+    .login-header{
+        background-color: $red;
+        color: $white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 5px;
+        h1 {
+            margin: 0;
+        }
+    }
+    .inputs-container {
+        align-items:center;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 25px;
+        .login-input {
+            display: block;
+            margin-bottom: 20px;
+            width: 100%;
+            input {
+                width: 100%;
+            }
+        }
+        .login-button {
             width: 100%;
         }
     }
