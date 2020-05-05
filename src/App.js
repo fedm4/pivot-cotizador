@@ -36,7 +36,7 @@ const App = () => {
           debug: user,
           email: user.email,
           emailVerified: user.emailVerified
-        })
+        });
       }else {
         setUser(null);
       }

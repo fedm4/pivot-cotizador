@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^7.1.2",
     "firebase": "^7.14.2",
     "googleapis": "39",
+    "jest": "^25.5.4",
     "mongoose": "^5.9.2",
     "node-sass": "^4.13.1",
     "react": "^16.12.0",

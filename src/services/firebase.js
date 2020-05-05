@@ -41,24 +41,6 @@ class Firebase {
     }
 
     /**
-     * Genero nuevo reclamo guardando archivo
-     * en storage.
-     * @param {Reclamo} reclamo 
-     * @param {File} imagen 
-     */
-    /*async generarReclamo (reclamo, imagen) {
-        delete reclamo.id;
-        try {
-            if(imagen) await this.subirImagen(imagen);
-            const ret = this.database.ref('/reclamos/')
-                .push(reclamo);
-            return ret.key;
-        } catch (err) {
-            if(imagen) this.borrarImagen(imagen);
-            //TODO: Tirar error 
-        }
-    }*/
-    /**
      * Recibe una referencia de la imagen, crea
      * una referencia en storage, y la sube.
      * 
@@ -91,7 +73,7 @@ class Firebase {
     /**
      * 
      */
-    async getImage (file) {
+    async getFile (file) {
         if(!file) return null;
         try {
             const fileRef = this.getFileRef(file);
@@ -100,18 +82,54 @@ class Firebase {
             console.log(err);
         }
     }
+
+    /************
+     * Database *
+     ************/
+    async create (refName, data) {
+        delete data.id;
+        try {
+            const ret = this.database.ref(`/${refName}/`)
+                .push(data);
+            return ret.key;
+        } catch (err) {
+            //TODO: Tirar error
+            throw err; 
+        }
+    }
+
     /**
      * 
      */
-    /*async getReclamos (setReclamos) {
+    async getAll (refName, setter) {
         try{
-            const dataRef = await this.database.ref('/reclamos/');
-            dataRef.on('value', snapshot => setReclamos(snapshot.val()));
+            const dataRef = await this.database.ref(`/${refName}/`);
+            dataRef.on('value', snapshot => setter(snapshot.val()));
         }catch(err) {
             console.log(err);
         }
-    }*/
+    }
+    /**
+     * 
+     */
+    async get (refName, setter) {
+        try{
+            const dataRef = await this.database.ref(`/${refName}/`);
+            dataRef.once('value', snapshot => setter(snapshot.val()));
+        }catch(err) {
+            console.log(err);
+        }
+    }
 
+    /********
+     * Auth *
+     ********/
+
+    /**
+     * 
+     * @param {*} email 
+     * @param {*} password 
+     */
     async createUserEmail(email, password) {
         this.auth.createUserWithEmailAndPassword(email, password)
             .catch(err=>console.log(err));
