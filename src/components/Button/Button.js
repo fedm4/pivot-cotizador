@@ -2,7 +2,7 @@ import React from 'react';
 import './Button.scss';
 import {Link} from 'react-router-dom';
 
-const Button = ({children, handleOnClick, link, color, className, disabled}) => {
+const Button = ({children, handleOnClick, link, color, className, disabled, fullwidth}) => {
   return (
     link?
     <Link to={link}
@@ -11,7 +11,7 @@ const Button = ({children, handleOnClick, link, color, className, disabled}) => 
       {children}
     </Link>
     :
-    <button className={`button ${color} ${className} ${disabled}`}
+    <button className={`button ${color} ${className} ${disabled} ${fullwidth?'fullwidth': ''}`}
       type="button"
       disabled={disabled}
       onClick={handleOnClick}

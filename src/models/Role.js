@@ -2,34 +2,26 @@ export default class Role {
     constructor({
         id = null,
         name = null,
-        firebase
+        firebase = null
     }) {
-        if(!firebase) throw new Error('Firebase must be defined');
+        //if(!firebase) throw new Error('Firebase must be defined');
 
         this.firebase = firebase;
         this.id = id;
         this.name = name;
-        this.refName = Role.refName;
-    }
-
-    async create () {
-        try {
-            return await this.firebase.create(this.refName, {name: this.name});
-        } catch(err) {
-            throw err;
-        }
     }
 
     /******************
      * Static methods *
      ******************/
 
-    static get refName() {
+    static get getCollection() {
         return 'roles';
     }
     static async getAll(firebase) {
         try{ 
-            return await firebase.getAll('roles');
+            const snapshot = await firebase.getAll(this.getCollection);
+            return snapshot.docs.map(doc => new Role({id: doc.id, name: doc.data().name}));
         } catch(err) {
             throw err;
         }

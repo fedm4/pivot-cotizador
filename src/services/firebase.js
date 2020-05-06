@@ -1,5 +1,5 @@
 import app from 'firebase/app';
-import 'firebase/database';
+import 'firebase/firestore';
 import 'firebase/storage';
 import 'firebase/auth';
 
@@ -20,7 +20,7 @@ const config ={
 class Firebase {
     constructor() {
         app.initializeApp(config);
-        this.database = app.database();
+        this.database = app.firestore();
         this.storage = app.storage();
         this.auth = app.auth();
     }
@@ -83,44 +83,6 @@ class Firebase {
         }
     }
 
-    /************
-     * Database *
-     ************/
-    async create (refName, data) {
-        delete data.id;
-        try {
-            const ret = this.database.ref(`/${refName}/`)
-                .push(data);
-            return ret.key;
-        } catch (err) {
-            //TODO: Tirar error
-            throw err; 
-        }
-    }
-
-    /**
-     * 
-     */
-    async getAll (refName, setter) {
-        try{
-            const dataRef = await this.database.ref(`/${refName}/`);
-            dataRef.on('value', snapshot => setter(snapshot.val()));
-        }catch(err) {
-            console.log(err);
-        }
-    }
-    /**
-     * 
-     */
-    async get (refName, setter) {
-        try{
-            const dataRef = await this.database.ref(`/${refName}/`);
-            dataRef.once('value', snapshot => setter(snapshot.val()));
-        }catch(err) {
-            console.log(err);
-        }
-    }
-
     /********
      * Auth *
      ********/
@@ -146,6 +108,28 @@ class Firebase {
      */
     onAuthStateChanged(callback) {
         return this.auth.onAuthStateChanged(callback);
+    }
+
+    /************
+     * DATABASE *
+     ************/
+    async insert (collection, data) {
+        try {
+            if(!collection || !data || typeof data !== 'object') throw new Error("lala");
+            const docRef = await this.database.collection(collection)
+                .add(data);
+            return docRef.id;
+        } catch (err) {
+            throw new Error(`Error inserting on ${collection} - ${err}`);
+        }
+    }
+    async getAll(collection) {
+        try {
+            const querySnapshot = await this.database.collection(collection).get();
+            return querySnapshot;
+        } catch(err) {
+            throw new Error(`Error getting on ${collection} - ${err}`);
+        }
     }
 }
 

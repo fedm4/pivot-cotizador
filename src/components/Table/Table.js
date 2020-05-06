@@ -4,6 +4,7 @@ import './Table.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy, faTimes } from '@fortawesome/free-solid-svg-icons';
 import {Link} from 'react-router-dom';
+import Skeleton from 'react-loading-skeleton';
 
 const Table = props =>{
     const editClick = (event,user) => {
@@ -33,6 +34,18 @@ const Table = props =>{
                 </tr>
             </thead>
             <tbody>
+                {
+                    props.data.length === 0 ?
+                    [0,1,2,3,4].map( () => {
+                        return (
+                            <tr>
+                                {props.columns.map(() => <td><Skeleton /></td>)}
+                                {props.edit || props.editLink ? <td><Skeleton /></td> :null}
+                                {props.delete? <td><Skeleton /></td> : null}
+                            </tr>
+                        )
+                    }):null
+                }
                 {props.data.map((item, index) => {
                     return (
                         <tr key={`table-${index}`}>

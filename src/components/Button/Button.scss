@@ -19,6 +19,7 @@
   &:active{
     border: 1px inset $dark-gray;
   }
+  &.fullwidth{ width: 100%; }
   &.yellow{
     background-color: $yellow;
     &:hover{

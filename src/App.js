@@ -12,10 +12,13 @@ import {
 import Presupuestos from './pages/Presupuestos/Presupuestos';
 import Presupuesto from './pages/Presupuesto/Presupuesto';
 import Borradores from './pages/Borradores/Borradores';
+import Usuarios from './pages/Usuarios/Usuarios';
+import Usuario from './pages/Usuario/Usuario';
 import gappsSignInService from './services/gappsSignIn';
 import firebase from './services/firebase';
 
 import './App.scss';
+import Role from './models/Role';
 
 const App = () => {
   const gapi = window.gapi;
@@ -43,6 +46,10 @@ const App = () => {
     });
   }, []);
   useEffect(()=>console.log(user), [user]);
+  /*useEffect(() => {
+    if(!firebase) return;
+    //Role.getAll(firebase);
+  }, []);*/
   return (
     <MainContext.Provider
       value={
@@ -69,27 +76,31 @@ const App = () => {
                 <Sidebar></Sidebar>
                 <section className="main-content">
                   <Switch>
-                    {
-                      isGappsSignedIn ?
-                      <React.Fragment>
-                        <Route exact path="/">
-                          <Presupuestos></Presupuestos>
-                        </Route>
-                        <Route exact path="/presupuestos">
-                          <Presupuestos></Presupuestos>
-                        </Route>
-                        <Route exact path="/presupuesto">
-                          <Presupuesto></Presupuesto>
-                        </Route>
-                        <Route exact path="/borradores">
-                          <Borradores></Borradores>
-                        </Route>
-                        <Route exact path="/borrador/:nroPresupuesto">
-                          <Presupuesto></Presupuesto>
-                        </Route>
-                      </React.Fragment>
-                      : null
-                    }
+                    <Route exact path="/usuarios">
+                      <Usuarios />
+                    </Route>
+                    <Route exact path="/usuario">
+                      <Usuario />
+                    </Route>
+                    <Route exact path="/usuario/:id">
+                      <Usuario />
+                    </Route>
+                    
+                    <Route exact path="/">
+                      <Presupuestos></Presupuestos>
+                    </Route>
+                    <Route exact path="/presupuestos">
+                      <Presupuestos></Presupuestos>
+                    </Route>
+                    <Route exact path="/presupuesto">
+                      <Presupuesto></Presupuesto>
+                    </Route>
+                    <Route exact path="/borradores">
+                      <Borradores></Borradores>
+                    </Route>
+                    <Route exact path="/borrador/:nroPresupuesto">
+                      <Presupuesto></Presupuesto>
+                    </Route>
                   </Switch>
                 </section>
               </React.Fragment>
