@@ -35,7 +35,11 @@
       background-color: darken($green, 10);
     }
     &.disabled {
-      background-color: lighten($green, 20);
+      $color: mix($green,#999);
+      background-color: $color;
+      &:hover {
+        background-color: $color;
+      }
     }
   }
   &.red {

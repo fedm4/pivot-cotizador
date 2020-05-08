@@ -19,6 +19,7 @@ import firebase from './services/firebase';
 
 import './App.scss';
 import Role from './models/Role';
+import User from './models/User';
 
 const App = () => {
   const gapi = window.gapi;
@@ -35,21 +36,21 @@ const App = () => {
     handleClientLoad();
     firebase.onAuthStateChanged(user => {
       if(user && user.email){
-        setUser({
-          debug: user,
+        const _user = new User({
+          id: user.uid,
           email: user.email,
-          emailVerified: user.emailVerified
+          role: ""
         });
+        setUser(_user);
       }else {
         setUser(null);
       }
     });
   }, []);
-  useEffect(()=>console.log(user), [user]);
-  /*useEffect(() => {
-    if(!firebase) return;
-    //Role.getAll(firebase);
-  }, []);*/
+  useEffect(() => {
+    if(user === null) return; 
+    user.getCurrentRole(firebase);
+  }, [user]);
   return (
     <MainContext.Provider
       value={

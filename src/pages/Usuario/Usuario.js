@@ -11,50 +11,86 @@ import Select from '../../components/Select/Select';
 import {capitalizeFLetter} from '../../helpers/string';
 
 const Usuarios = () => {
-    const {firebase} = useContext(MainContext);
+    const {firebase, user} = useContext(MainContext);
     const {id} = useParams();
 
     const [email, setEmail] = useState("");
+    const [enableSave, setEnableSave] = useState(false);
+    const [password, setPassword] = useState("");
+    const [cPassword, setCPassword] = useState("");
     const [role, setRole] = useState("");
     const [roles, setRoles] = useState([]);
 
-    const handleChange = e => {
+    const handleInputChange = e => {
         switch(e.target.name) {
             case "email":
                 setEmail(e.target.value);
                 break;
-            case "role":
-                setRole(e.value);
-                break;
-            default:
-                throw new Error("Error!!");
+            case "password":
+                setPassword(e.target.value);
+            case "cPassword":
+                setCPassword(e.target.value);
         }
     };
+    const handleRoleChange = e => {
+        setRole(e.value);
+    }
 
     useEffect(() => {
         if(!firebase) return;
         Role.getAll(firebase).then(roles => {
-            const data = roles.map(role => ({label: capitalizeFLetter(role.name), value: role.name}));
+            const data = roles.reduce((acc, role) => {
+                if(role.name !== "admin" || user.role === "admin") {
+                    acc.push({label: capitalizeFLetter(role.name), value: role.name});
+                }
+                return acc;
+            }, []);
             setRoles(data);
         });
     }, []);
+    useEffect(() => {
+        if(password.length >= 6
+        && password === cPassword) {
+            setEnableSave(true)
+        } else {
+            setEnableSave(false);
+        }
+    }, [password, cPassword]);
     return (
         <Panel title="Usuario">
             <form className="user-form">
                 <Input
                     name="email" 
                     type="text"
-                    className="grid-item"
+                    className="grid-item hwidth-item"
                     placeholder="Email"
                     label="Email"
                     value={email}
-                    handleChange={handleChange}
+                    handleChange={handleInputChange}
+                />
+                <Input
+                    name="password" 
+                    type="password"
+                    className="grid-item hwidth-item"
+                    placeholder="Contraseña"
+                    label="Contraseña"
+                    value={email}
+                    handleChange={handleInputChange}
+                />
+                <Input
+                    name="cPassword" 
+                    type="password"
+                    className="grid-item hwidth-item"
+                    placeholder="Confirmar Contraseña"
+                    label="Confirmar Contraseña"
+                    value={email}
+                    handleChange={handleInputChange}
                 />
                 <Select
-                    className="fwidth-item"
+                    className="hwidth-item"
                     label="Rol"
                     seleccionar={true}
-                    onChange={handleChange}
+                    onChange={handleRoleChange}
                     options={roles}
                 />
             </form>
@@ -63,7 +99,7 @@ const Usuarios = () => {
                     id ?
                     <Button color="green" className="ml-15" handleClick={e=>{}}>Modificar</Button>
                     :
-                    <Button color="green" className="ml-15" handleClick={e=>{}}>Crear</Button>
+                    <Button color="green" className="ml-15" disabled={enableSave ? '' : 'disabled'} handleClick={e=>alert("jofejo")}>Crear</Button>
                 }
                 <Button color="red" className="ml-15" handleClick={e=>{}} link="/usuarios">Volver</Button>
             </footer>

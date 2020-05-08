@@ -1,5 +1,5 @@
-import React, {useContext, useReducer} from 'react';
-import {Link} from 'react-router-dom';
+import React, {useContext, useEffect, useReducer} from 'react';
+import {Link, useLocation} from 'react-router-dom';
 import Button from './../Button/Button';
 import MainContext from './../../context/MainContext';
 import {
@@ -22,6 +22,7 @@ const reducer = (state, action) => {
 };
 
 const Sidebar = () => {
+  let location = useLocation();
   const [state , dispatch] = useReducer(reducer, {presupuestos:""});
   const {
     firebase,
@@ -29,7 +30,36 @@ const Sidebar = () => {
     handleSignOutClick,
     isGappsSignedIn
   } = useContext(MainContext);
-
+  useEffect(() => {
+    let type;
+    switch(location.pathname.split("/")[1]) {
+      case "/" :
+        type = "setPresupuestos";
+        break;
+      case "presupuestos":
+        type = "setPresupuestos";
+        break;
+      case "presupuesto":
+        type = "setPresupuestos";
+        break;
+      case "borradores":
+        type = "setPresupuestos";
+        break;
+      case "borrador":
+        type = "setPresupuestos";
+        break;
+      case "presupuesto":
+        type = "setPresupuestos";
+        break;
+      case "usuarios":
+        type = "setUsuarios";
+        break;
+      case "usuario":
+        type = "setUsuarios";
+        break;
+    }
+    dispatch({type});
+  }, []);
   return (
     <aside className="sidebar">
       <nav className="sidebar-nav">

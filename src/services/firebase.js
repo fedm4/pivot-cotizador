@@ -123,6 +123,9 @@ class Firebase {
             throw new Error(`Error inserting on ${collection} - ${err}`);
         }
     }
+    collection(collection) {
+        return this.database.collection(collection);
+    }
     async getAll(collection) {
         try {
             const querySnapshot = await this.database.collection(collection).get();

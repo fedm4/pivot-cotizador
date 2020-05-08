@@ -2,8 +2,7 @@ export default class User {
     constructor({
         id,
         email,
-        role,
-        firebase
+        role
     }) {
         if(!id) throw new Error('ID must be defined.');
         this.id = id;
@@ -11,10 +10,20 @@ export default class User {
         this.role = role;
     }
 
-    async create () {
+    async create (firebase) {
         try {
-            const id = await this.firebase.insert(User.getCollection, {name:this.name});
+            const id = await firebase.insert(User.getCollection, {name:this.name});
             this.id = id;
+        } catch(err) {
+            throw err;
+        }
+    }
+    async getCurrentRole (firebase) {
+        try {
+            const _userRef = firebase.collection(User.getCollection);
+            const _user = await _userRef.where('email', '==', this.email)
+                .get();
+            this.role = _user.role;
         } catch(err) {
             throw err;
         }

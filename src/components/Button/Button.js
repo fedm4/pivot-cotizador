@@ -6,7 +6,7 @@ const Button = ({children, handleOnClick, link, color, className, disabled, full
   return (
     link?
     <Link to={link}
-      className={`button ${color} ${className}`}
+      className={`button ${color} ${className} ${disabled}`}
     >
       {children}
     </Link>

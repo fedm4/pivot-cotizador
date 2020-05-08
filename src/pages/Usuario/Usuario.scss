@@ -5,7 +5,6 @@
   flex-wrap: wrap;
   margin-bottom: 15px;
   transition: all 0.3s linear;
-  overflow: hidden;
 }
 .grid-item{
   box-sizing: border-box;
@@ -21,12 +20,8 @@
     width: 100%;
   }
 }
-.fwidth-item {
+.hwidth-item {
   box-sizing: border-box;
   padding: 10px;
-  width: 100%;
-  textarea{ 
-    height: 150px;
-    width: 100%;
-  }
+  width: 50%;
 }
