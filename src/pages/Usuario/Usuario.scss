@@ -5,6 +5,12 @@
   flex-wrap: wrap;
   margin-bottom: 15px;
   transition: all 0.3s linear;
+  & > span {
+    box-sizing: border-box;
+    padding: 2px 5px;
+    display: inline-block;
+    width: 50%;
+  }
 }
 .grid-item{
   box-sizing: border-box;

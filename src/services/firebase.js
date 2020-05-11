@@ -93,8 +93,11 @@ class Firebase {
      * @param {*} password 
      */
     async createUserEmail(email, password) {
-        this.auth.createUserWithEmailAndPassword(email, password)
-            .catch(err=>console.log(err));
+        try {
+            await this.auth.createUserWithEmailAndPassword(email, password);
+        } catch (err) {
+            console.log(err);
+        }
     }
     async signInEmail(email, password) {
         this.auth.signInWithEmailAndPassword(email, password)
@@ -102,6 +105,9 @@ class Firebase {
     }
     signOut() {
         this.auth.signOut();
+    }
+    async resetPassword(email) {
+        this.auth.sendPasswordResetEmail(email);
     }
     /**
      * Expose method to handle user login somewhere else

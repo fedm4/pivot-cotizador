@@ -1,9 +1,10 @@
 import React, {useEffect} from 'react';
 import ReactSelect from 'react-select';
+import Skeleton from 'react-loading-skeleton';
 
 import './Select.scss';
 
-const Select = ({label, name, onChange, options, className, _value}) => {
+const Select = ({label, name, onChange, options, className, _value, skeleton}) => {
   const style = {
     control: base => ({
       ...base,
@@ -21,20 +22,25 @@ const Select = ({label, name, onChange, options, className, _value}) => {
       padding: "4px"
     })
   };
-  useEffect(()=>console.log(options), [options]);
+  useEffect(()=>console.log(_value), [_value]);
   return(
     <label className={className}>
           <span>{label}</span>
-          <ReactSelect
-                className="select"
-                name={name}
-                onChange={onChange}
-                options={options}
-                placeholder="Seleccionar"
-                value={_value}
-                styles={style}
-                disabled={options.length === 0?"disabled":""}
-            />
+          {
+            skeleton ? 
+            <Skeleton height={30} />
+            :
+            <ReactSelect
+                  className="select"
+                  name={name}
+                  onChange={onChange}
+                  options={options}
+                  placeholder="Seleccionar"
+                  value={{label: _value, value: _value}}
+                  styles={style}
+                  disabled={options.length === 0?"disabled":""}
+              />
+          }
     </label>
   );
 };

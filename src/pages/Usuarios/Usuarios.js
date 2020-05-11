@@ -16,7 +16,7 @@ const Usuarios = () => {
     useEffect(()=> console.log(lista), [lista]);
     return (
         <Panel title="Usuarios">
-            <Table columns={['ID', 'email', "rol"]} data={lista} edit={true} />
+            <Table columns={['ID', 'email', "rol"]} data={lista} editLink={{to: '/usuario/', key: 'id'}} />
             <footer className="panel-footer">
                 <Button color="green" className="ml-15" handleClick={e=>{}} link="/usuario">Nuevo</Button>
             </footer>

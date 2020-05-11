@@ -1,5 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
+import Skeleton from 'react-loading-skeleton';
+
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import Panel from '../../components/Panel/Panel';
@@ -20,6 +22,7 @@ const Usuarios = () => {
     const [cPassword, setCPassword] = useState("");
     const [role, setRole] = useState("");
     const [roles, setRoles] = useState([]);
+    const [display, setDisplay] = useState(false);
 
     const handleInputChange = e => {
         switch(e.target.name) {
@@ -28,13 +31,29 @@ const Usuarios = () => {
                 break;
             case "password":
                 setPassword(e.target.value);
+                break;
             case "cPassword":
                 setCPassword(e.target.value);
+                break;
         }
     };
     const handleRoleChange = e => {
         setRole(e.value);
     }
+
+    const createUser = () => {
+        const user = new User({email, role});
+        user.create(firebase, password);
+    };
+
+    const updateUser = () => {
+        const user = new User({email, role});
+        user.update(firebase, password);
+    };
+
+    const resetPassword = () => {
+        firebase.resetPassword(email);
+    };
 
     useEffect(() => {
         if(!firebase) return;
@@ -47,15 +66,29 @@ const Usuarios = () => {
             }, []);
             setRoles(data);
         });
+
+        if(id) {
+            User.getById(firebase, id).then(user => {
+                setEmail(user.email);
+                setRole(user.role);
+                setDisplay(true);
+            }).catch(err => {
+                throw err;
+            });
+        } else {
+            setDisplay(true);
+        }
     }, []);
+
     useEffect(() => {
         if(password.length >= 6
         && password === cPassword) {
-            setEnableSave(true)
+            setEnableSave(true);
         } else {
             setEnableSave(false);
         }
     }, [password, cPassword]);
+
     return (
         <Panel title="Usuario">
             <form className="user-form">
@@ -67,24 +100,7 @@ const Usuarios = () => {
                     label="Email"
                     value={email}
                     handleChange={handleInputChange}
-                />
-                <Input
-                    name="password" 
-                    type="password"
-                    className="grid-item hwidth-item"
-                    placeholder="Contraseña"
-                    label="Contraseña"
-                    value={email}
-                    handleChange={handleInputChange}
-                />
-                <Input
-                    name="cPassword" 
-                    type="password"
-                    className="grid-item hwidth-item"
-                    placeholder="Confirmar Contraseña"
-                    label="Confirmar Contraseña"
-                    value={email}
-                    handleChange={handleInputChange}
+                    skeleton={!display}
                 />
                 <Select
                     className="hwidth-item"
@@ -92,14 +108,43 @@ const Usuarios = () => {
                     seleccionar={true}
                     onChange={handleRoleChange}
                     options={roles}
+                    _value={role}
+                    skeleton={!display}
                 />
+                {
+                    id ? 
+                    null:
+                    <React.Fragment>
+                        <Input
+                            name="password" 
+                            type="password"
+                            className="grid-item hwidth-item"
+                            placeholder="Contraseña"
+                            label="Contraseña"
+                            value={password}
+                            handleChange={handleInputChange}
+                        />
+                        <Input
+                            name="cPassword" 
+                            type="password" 
+                            className="grid-item hwidth-item"
+                            placeholder="Confirmar Contraseña"
+                            label="Confirmar Contraseña"
+                            value={cPassword}
+                            handleChange={handleInputChange}
+                        />
+                    </React.Fragment>
+                }
             </form>
             <footer className="panel-footer">
                 {
                     id ?
-                    <Button color="green" className="ml-15" handleClick={e=>{}}>Modificar</Button>
+                    <React.Fragment>
+                        <Button color="green" className="ml-15" handleOnClick={e=>{}}>Modificar</Button>
+                        <Button color="yellow" className="ml-15" handleOnClick={resetPassword}>Resetear Contraseña</Button>
+                    </React.Fragment>
                     :
-                    <Button color="green" className="ml-15" disabled={enableSave ? '' : 'disabled'} handleClick={e=>alert("jofejo")}>Crear</Button>
+                    <Button color="green" className="ml-15" disabled={enableSave ? '' : 'disabled'} handleOnClick={createUser}>Crear</Button>
                 }
                 <Button color="red" className="ml-15" handleClick={e=>{}} link="/usuarios">Volver</Button>
             </footer>
