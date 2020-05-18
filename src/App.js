@@ -48,16 +48,13 @@ const App = () => {
         });
         _user.getCurrentRoles(firebase)
           .then(roles => {setUser(new User({..._user, roles}))})
-          .catch(e => setMessage({message: e, type: 'error'}));
+          .catch(e => setMessage({message: e.message, type: 'error'}));
       }else {
         setUser(null);
       }
     });
   }, []);
 
-  useEffect(()=>{
-    console.log(user.roles);
-  }, [user.roles])
   return (
     <MainContext.Provider
       value={
@@ -94,9 +91,8 @@ const App = () => {
                     <Route exact path="/usuario/:id">
                       <Usuario />
                     </Route>
-                    
-                    <Route exact path="/">
-                      <Presupuestos></Presupuestos>
+                    <Route exact path="/" >
+                      <div>Bienvenido</div>
                     </Route>
                     <Route exact path="/presupuestos">
                       <Presupuestos></Presupuestos>

@@ -1,5 +1,5 @@
 import React, {useContext, useState, useReducer, useEffect} from 'react';
-import {useParams} from 'react-router-dom';
+import {useParams, Redirect} from 'react-router-dom';
 import Panel from '../../components/Panel/Panel';
 import Context from '../../context/MainContext';
 import Spreadsheets from '../../consts/spreadsheets';
@@ -49,7 +49,7 @@ const Presupuesto = () => {
   const [state, dispatch] = useReducer(reducer, JSON.parse(JSON.stringify(initialState)));
   const [sistemaModal, setSistemaModal] = useState(false);
   const [writing, setWriting] = useState(false);
-  const {gapi} = useContext(Context);
+  const {gapi, user} = useContext(Context);
   const decodedNroPresupuesto = decodeURIComponent(nroPresupuesto);
   
   useEffect(() => {
@@ -92,6 +92,8 @@ const Presupuesto = () => {
     setWriting(true);
     await createPresupuestoFile(gapi, state, setWriting);
   };
+
+  if(user.roles.indexOf('cotizador') === -1) return (<div>No tenes permiso para estar aca</div>);
   return (
     <Panel title="Presupuesto">
       <PulseLoader show={writing}></PulseLoader>

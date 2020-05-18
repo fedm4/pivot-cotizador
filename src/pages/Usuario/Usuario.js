@@ -103,6 +103,7 @@ const Usuarios = () => {
         }
     }, [password, cPassword]);
 
+    if(user.roles.indexOf('usuarios') === -1) return (<div>No tenes permisos para acceder aqui</div>);
     if(back) return (<Redirect to="/usuarios" />);
     return (
         <Panel title="Usuario">

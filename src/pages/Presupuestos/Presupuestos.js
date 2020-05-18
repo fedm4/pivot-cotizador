@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
+import {Redirect} from 'react-router-dom';
 import Table from '../../components/Table/Table';
 import Panel from '../../components/Panel/Panel';
 import Button from '../../components/Button/Button';
@@ -10,14 +11,14 @@ import { faCopy } from '@fortawesome/free-solid-svg-icons';
 
 const Presupuestos = () => {
   const [lista, setLista] = useState([]);
-  const {gapi}  = useContext(MainContext);
+  const {gapi, user, setMessage}  = useContext(MainContext);
   useEffect(() => {
+    if(user.roles.indexOf('cotizador') === -1) return;
     const folderId = '1jGXdMGlHqCh4Zbewz9J-i1xOnTOLx4re';
     gapi.client.load('drive', 'v2', async ()=>{
       gapi.client.drive.files.list({
         q: `'${folderId}' in parents`
       }).then(response => {
-        console.log(response);
         const data = response.result.items.map(item => {
           const [nroPresupuesto, cliente, ...fecha] = item.title.split('-');
           return {
@@ -28,9 +29,11 @@ const Presupuestos = () => {
           }
         });
         setLista(data);
-      });
+      }).catch(e => setMessage({message: e.message, type: 'error'}));
     });
-  }, []);
+  }, [user.roles]);
+  
+  if(user.roles.indexOf('cotizador') === -1) return (<div>No tenes permiso para estar aca</div>);
   return (
     <Panel title="Presupuestos">
       <Table columns={['No Presupuesto', 'Cliente', "Fecha", "Descargar"]} data={lista} edit={false} />

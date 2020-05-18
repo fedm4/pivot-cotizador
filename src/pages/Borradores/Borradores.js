@@ -1,4 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
+import {Redirect} from 'react-router-dom';
+import MainContext from '../../context/MainContext';
 import Table from '../../components/Table/Table';
 import Panel from '../../components/Panel/Panel';
 import Button from '../../components/Button/Button';
@@ -7,6 +9,8 @@ import './Borradores.scss';
 const Borradores = () => {
   const [borradores, setBorradores] = useState([]);
   const [lista, setLista] = useState([]);
+  const {user} = useContext(MainContext);
+
   useEffect(()=>{
     const borradores = JSON.parse(localStorage.getItem("borradores"));
     if(!borradores) return;
@@ -31,6 +35,7 @@ const Borradores = () => {
     localStorage.setItem("borradores", JSON.stringify(clon));
   };
 
+  if(user.roles.indexOf('cotizador') === -1) return (<div>No tenes permiso para estar aca</div>);
   return (
     <Panel title="Borradores">
       <Table

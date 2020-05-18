@@ -36,10 +36,10 @@ const Table = props =>{
             <tbody>
                 {
                     props.data.length === 0 ?
-                    [0,1,2,3,4].map( () => {
+                    [0,1,2,3,4].map( (item) => {
                         return (
-                            <tr>
-                                {props.columns.map(() => <td><Skeleton /></td>)}
+                            <tr key={`skeleton-${item}`}>
+                                {props.columns.map((col) => <td key={`skeleton-td-${col}${item}`}><Skeleton /></td>)}
                                 {props.edit || props.editLink ? <td><Skeleton /></td> :null}
                                 {props.delete? <td><Skeleton /></td> : null}
                             </tr>

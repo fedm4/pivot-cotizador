@@ -32,9 +32,8 @@ export default class User {
     async getCurrentRoles (firebase) {
         try {
             const _userRef = firebase.collection(User.getCollection);
-            const _user = await _userRef.where('email', '==', this.email)
-                .get();
-            return [];//_user.roles;
+            const _user = await _userRef.doc(this.id).get();
+            return _user.data().roles;
         } catch(err) {
             throw err;
         }
