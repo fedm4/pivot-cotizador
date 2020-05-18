@@ -58,7 +58,6 @@ const Usuarios = () => {
     const updateUser = async () => {
         const user = new User({id, email, role});
         try{
-            throw new Error("lalalala");
             setSaving(true);
             await user.update(firebase, id);
             setBack(true);
