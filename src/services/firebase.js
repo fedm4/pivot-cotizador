@@ -94,7 +94,7 @@ class Firebase {
      */
     async createUserEmail(email, password) {
         try {
-            await this.auth.createUserWithEmailAndPassword(email, password);
+            return await this.auth.createUserWithEmailAndPassword(email, password);
         } catch (err) {
             console.log(err);
         }

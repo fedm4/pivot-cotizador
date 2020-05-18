@@ -2,18 +2,20 @@ export default class User {
     constructor({
         id = null,
         email,
-        role
+        roles
     }) {
         this.id = id;
         this.email = email;
-        this.role = role;
+        this.roles = roles;
     }
 
     async create (firebase, password) {
         try {
-            await firebase.createUserEmail(this.email, password);
-            const id = await firebase.insert(User.getCollection, {email: this.email, role: this.role});
-            this.id = id;
+            const {user} = await firebase.createUserEmail(this.email, password);
+            await firebase.database.collection(User.getCollection)
+                .doc(user.uid)
+                .set({email: this.email, roles: this.roles});
+            this.id = user.uid;
         } catch(err) {
             throw err;
         }
@@ -21,18 +23,18 @@ export default class User {
 
     async update (firebase, id) {
         try {
-            await firebase.update(User.getCollection, id, {email: this.email, role: this.role});
+            await firebase.update(User.getCollection, id, {email: this.email, roles: this.roles});
         } catch(err) {
             throw err;
         }
     }
 
-    async getCurrentRole (firebase) {
+    async getCurrentRoles (firebase) {
         try {
             const _userRef = firebase.collection(User.getCollection);
             const _user = await _userRef.where('email', '==', this.email)
                 .get();
-            this.role = _user.role;
+            return [];//_user.roles;
         } catch(err) {
             throw err;
         }
@@ -46,7 +48,7 @@ export default class User {
             const snapshot = await firebase.getAll(this.getCollection);
             return snapshot.docs.map(doc => {
                 const data = doc.data();
-                return new User({id: doc.id, email: data.email, role: data.role})
+                return new User({id: doc.id, email: data.email, roles: data.roles})
             });
         } catch(err) {
             throw err;

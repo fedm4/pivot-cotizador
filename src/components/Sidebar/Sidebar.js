@@ -28,7 +28,8 @@ const Sidebar = () => {
     firebase,
     handleAuthClick,
     handleSignOutClick,
-    isGappsSignedIn
+    isGappsSignedIn,
+    user
   } = useContext(MainContext);
   useEffect(() => {
     let type;
@@ -64,24 +65,32 @@ const Sidebar = () => {
     <aside className="sidebar">
       <nav className="sidebar-nav">
         {
-          isGappsSignedIn ?
-          <React.Fragment>
-            <Link className={`${state.presupuestos}`} onClick={()=>dispatch({type:'setPresupuestos'})} to="/presupuestos">Presupuestos</Link>
-            <Button handleOnClick={handleSignOutClick}
-              color="red"
-              id="signout-button"
-              className="g-button"
-              fullwidth={true}
-            >
-              Desconectar
+          user.roles.indexOf('cotizador') !== -1 ?
+            isGappsSignedIn ?
+            <React.Fragment>
+              <Link className={`${state.presupuestos}`} onClick={()=>dispatch({type:'setPresupuestos'})} to="/presupuestos">Presupuestos</Link>
+              <Button handleOnClick={handleSignOutClick}
+                color="red"
+                id="signout-button"
+                className="g-button"
+                fullwidth={true}
+              >
+                Desconectar
+              </Button>
+            </React.Fragment>
+            :
+            <Button type="button" handleOnClick={handleAuthClick} color="green" fullwidth={true}>
+              Conectar
             </Button>
-          </React.Fragment>
           :
-          <Button type="button" handleOnClick={handleAuthClick} color="green" fullwidth={true}>
-            Conectar
-          </Button>          
+          null          
         }
-        <Link className={`${state.usuarios}`}  onClick={()=>dispatch({type:'setUsuarios'})} to="/usuarios">Usuarios</Link>
+        {
+          user.roles.indexOf('usuarios') !== -1 ?
+          <Link className={`${state.usuarios}`}  onClick={()=>dispatch({type:'setUsuarios'})} to="/usuarios">Usuarios</Link>
+          :
+          null
+        }
       </nav>
     </aside>
   )

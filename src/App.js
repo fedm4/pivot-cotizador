@@ -24,7 +24,11 @@ import Modal from './components/Modal/Modal';
 const App = () => {
   const gapi = window.gapi;
   const [isGappsSignedIn, setIsGappsSignedIn] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(new User({
+    id: null,
+    email: null,
+    roles: []
+  }));
   const [message, setMessage] = useState({message: null, type: null});
   
   const {
@@ -40,19 +44,20 @@ const App = () => {
         const _user = new User({
           id: user.uid,
           email: user.email,
-          role: ""
+          roles: []
         });
-        setUser(_user);
+        _user.getCurrentRoles(firebase)
+          .then(roles => {setUser(new User({..._user, roles}))})
+          .catch(e => setMessage({message: e, type: 'error'}));
       }else {
         setUser(null);
       }
     });
   }, []);
-  useEffect(() => {
-    if(user === null) return; 
-    user.getCurrentRole(firebase)
-      .catch(e => setMessage({message: e, type: 'error'}));
-  }, [user]);
+
+  useEffect(()=>{
+    console.log(user.roles);
+  }, [user.roles])
   return (
     <MainContext.Provider
       value={

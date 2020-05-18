@@ -10,6 +10,7 @@ import './Usuario.scss';
 import Role from '../../models/Role';
 import Select from '../../components/Select/Select';
 import {capitalizeFLetter} from '../../helpers/string';
+import MultiCheckbox from '../../components/MultiCheckbox/MultiCheckbox';
 
 const Usuarios = () => {
     const {firebase, user, setMessage} = useContext(MainContext);
@@ -19,8 +20,8 @@ const Usuarios = () => {
     const [enableSave, setEnableSave] = useState(false);
     const [password, setPassword] = useState("");
     const [cPassword, setCPassword] = useState("");
-    const [role, setRole] = useState("");
-    const [roles, setRoles] = useState([]);
+    const [roles, setRoles] = useState("");
+    const [rolesList, setRolesList] = useState([]);
     const [display, setDisplay] = useState(false);
     const [saving, setSaving] = useState(false);
     const [back, setBack] = useState(false);
@@ -38,12 +39,9 @@ const Usuarios = () => {
                 break;
         }
     };
-    const handleRoleChange = e => {
-        setRole(e.value);
-    }
 
     const createUser = async () => {
-        const user = new User({email, role});
+        const user = new User({email, roles});
         try {
             setSaving(true);
             await user.create(firebase, password);
@@ -56,7 +54,7 @@ const Usuarios = () => {
     };
 
     const updateUser = async () => {
-        const user = new User({id, email, role});
+        const user = new User({id, email, roles});
         try{
             setSaving(true);
             await user.update(firebase, id);
@@ -76,18 +74,18 @@ const Usuarios = () => {
         Role.getAll(firebase).then(roles => {
             const data = roles.reduce((acc, role) => {
                 if(role.name !== "admin" || user.role === "admin") {
-                    acc.push({label: capitalizeFLetter(role.name), value: role.name});
+                    acc.push(role.name);
                 }
                 return acc;
             }, []);
-            setRoles(data);
+            setRolesList(data);
         })
         .catch(err => setMessage({message: err.message, type: 'error'}));
 
         if(id) {
             User.getById(firebase, id).then(user => {
                 setEmail(user.email);
-                setRole(user.role);
+                setRoles(user.roles);
                 setDisplay(true);
             })
             .catch(err => setMessage({message: err.message, type: 'error'}));
@@ -119,13 +117,11 @@ const Usuarios = () => {
                     handleChange={handleInputChange}
                     skeleton={!display}
                 />
-                <Select
-                    className="hwidth-item"
-                    label="Rol"
-                    seleccionar={true}
-                    onChange={handleRoleChange}
-                    options={roles}
-                    _value={role}
+                <MultiCheckbox
+                    data={rolesList}
+                    label="Roles"
+                    values={roles}
+                    setter={setRoles}
                     skeleton={!display}
                 />
                 {
