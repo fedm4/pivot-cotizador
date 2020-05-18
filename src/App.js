@@ -18,13 +18,14 @@ import gappsSignInService from './services/gappsSignIn';
 import firebase from './services/firebase';
 
 import './App.scss';
-import Role from './models/Role';
 import User from './models/User';
+import Modal from './components/Modal/Modal';
 
 const App = () => {
   const gapi = window.gapi;
   const [isGappsSignedIn, setIsGappsSignedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const [message, setMessage] = useState({message: null, type: null});
   
   const {
     handleClientLoad,
@@ -49,7 +50,8 @@ const App = () => {
   }, []);
   useEffect(() => {
     if(user === null) return; 
-    user.getCurrentRole(firebase);
+    user.getCurrentRole(firebase)
+      .catch(e => setMessage({message: e, type: 'error'}));
   }, [user]);
   return (
     <MainContext.Provider
@@ -60,7 +62,8 @@ const App = () => {
           isGappsSignedIn,
           gapi,
           firebase,
-          user
+          user,
+          setMessage
         }
       }
     >
@@ -109,6 +112,15 @@ const App = () => {
           </BrowserRouter>
         </main>
       </React.Fragment>
+      <Modal
+        isOpen={message.message}
+        contentCentered={true}
+        closeModal={e => setMessage({message: null, type: null})}
+        height={200} width={350}
+        type={message.type}
+      >
+        {message.message}
+      </Modal>
     </MainContext.Provider>
     
   );

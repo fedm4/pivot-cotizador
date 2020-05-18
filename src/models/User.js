@@ -1,8 +1,10 @@
 export default class User {
     constructor({
+        id = null,
         email,
         role
     }) {
+        this.id = id;
         this.email = email;
         this.role = role;
     }
@@ -17,11 +19,9 @@ export default class User {
         }
     }
 
-    async update (firebase, password) {
+    async update (firebase, id) {
         try {
-            //await firebase.createUserEmail(this.email, password);
-            //const id = await firebase.insert(User.getCollection, {email: this.email, role: this.role});
-            //this.id = id;
+            await firebase.update(User.getCollection, id, {email: this.email, role: this.role});
         } catch(err) {
             throw err;
         }

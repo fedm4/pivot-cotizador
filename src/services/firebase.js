@@ -129,6 +129,15 @@ class Firebase {
             throw new Error(`Error inserting on ${collection} - ${err}`);
         }
     }
+    
+    async update(collection, id, data) {
+        try{
+            await this.database.collection(collection).doc(id).update(data);
+        }catch (err) {
+            throw new Error(`Error updating on ${collection} - ${err}`);
+        }
+    }
+
     collection(collection) {
         return this.database.collection(collection);
     }

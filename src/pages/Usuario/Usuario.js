@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
-import Skeleton from 'react-loading-skeleton';
+import {useParams, Redirect} from 'react-router-dom';
 
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
@@ -13,7 +12,7 @@ import Select from '../../components/Select/Select';
 import {capitalizeFLetter} from '../../helpers/string';
 
 const Usuarios = () => {
-    const {firebase, user} = useContext(MainContext);
+    const {firebase, user, setMessage} = useContext(MainContext);
     const {id} = useParams();
 
     const [email, setEmail] = useState("");
@@ -23,6 +22,8 @@ const Usuarios = () => {
     const [role, setRole] = useState("");
     const [roles, setRoles] = useState([]);
     const [display, setDisplay] = useState(false);
+    const [saving, setSaving] = useState(false);
+    const [back, setBack] = useState(false);
 
     const handleInputChange = e => {
         switch(e.target.name) {
@@ -41,14 +42,30 @@ const Usuarios = () => {
         setRole(e.value);
     }
 
-    const createUser = () => {
+    const createUser = async () => {
         const user = new User({email, role});
-        user.create(firebase, password);
+        try {
+            setSaving(true);
+            await user.create(firebase, password);
+            setBack(true);
+        } catch (err) {
+            setSaving(false);
+            setMessage({message: err.message, type: 'error'});
+        }
+
     };
 
-    const updateUser = () => {
-        const user = new User({email, role});
-        user.update(firebase, password);
+    const updateUser = async () => {
+        const user = new User({id, email, role});
+        try{
+            throw new Error("lalalala");
+            setSaving(true);
+            await user.update(firebase, id);
+            setBack(true);
+        } catch (err) {
+            setSaving(false);
+            setMessage({message: err.message, type: 'error'});
+        }
     };
 
     const resetPassword = () => {
@@ -65,16 +82,16 @@ const Usuarios = () => {
                 return acc;
             }, []);
             setRoles(data);
-        });
+        })
+        .catch(err => setMessage({message: err.message, type: 'error'}));
 
         if(id) {
             User.getById(firebase, id).then(user => {
                 setEmail(user.email);
                 setRole(user.role);
                 setDisplay(true);
-            }).catch(err => {
-                throw err;
-            });
+            })
+            .catch(err => setMessage({message: err.message, type: 'error'}));
         } else {
             setDisplay(true);
         }
@@ -89,6 +106,7 @@ const Usuarios = () => {
         }
     }, [password, cPassword]);
 
+    if(back) return (<Redirect to="/usuarios" />);
     return (
         <Panel title="Usuario">
             <form className="user-form">
@@ -140,11 +158,19 @@ const Usuarios = () => {
                 {
                     id ?
                     <React.Fragment>
-                        <Button color="green" className="ml-15" handleOnClick={e=>{}}>Modificar</Button>
+                        <Button
+                            color="green"
+                            className="ml-15"
+                            disabled={saving ? 'disabled' : ''}
+                            saving={saving}
+                            handleOnClick={updateUser}
+                        >
+                            Modificar
+                        </Button>
                         <Button color="yellow" className="ml-15" handleOnClick={resetPassword}>Resetear Contraseña</Button>
                     </React.Fragment>
                     :
-                    <Button color="green" className="ml-15" disabled={enableSave ? '' : 'disabled'} handleOnClick={createUser}>Crear</Button>
+                    <Button color="green" className="ml-15" disabled={enableSave || !saving ? '' : 'disabled'} handleOnClick={createUser}>Crear</Button>
                 }
                 <Button color="red" className="ml-15" handleClick={e=>{}} link="/usuarios">Volver</Button>
             </footer>
