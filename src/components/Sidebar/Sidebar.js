@@ -2,11 +2,6 @@ import React, {useContext, useEffect, useReducer} from 'react';
 import {Link, useLocation} from 'react-router-dom';
 import Button from './../Button/Button';
 import MainContext from './../../context/MainContext';
-import {
-  ADMIN,
-  TESORERIA,
-  COTIZADOR
-} from '../../consts/roles';
 
 import './Sidebar.scss';
 
@@ -25,7 +20,6 @@ const Sidebar = () => {
   let location = useLocation();
   const [state , dispatch] = useReducer(reducer, {presupuestos:""});
   const {
-    firebase,
     handleAuthClick,
     handleSignOutClick,
     isGappsSignedIn,
@@ -49,18 +43,17 @@ const Sidebar = () => {
       case "borrador":
         type = "setPresupuestos";
         break;
-      case "presupuesto":
-        type = "setPresupuestos";
-        break;
       case "usuarios":
         type = "setUsuarios";
         break;
       case "usuario":
         type = "setUsuarios";
         break;
+      default:
+        type = "";
     }
     dispatch({type});
-  }, []);
+  }, [location.pathname]);
   return (
     <aside className="sidebar">
       <nav className="sidebar-nav">
@@ -73,13 +66,14 @@ const Sidebar = () => {
                 color="red"
                 id="signout-button"
                 className="g-button"
+                borderless={true}
                 fullwidth={true}
               >
                 Desconectar
               </Button>
             </React.Fragment>
             :
-            <Button type="button" handleOnClick={handleAuthClick} color="green" fullwidth={true}>
+            <Button type="button" borderless={true} handleOnClick={handleAuthClick} color="green" fullwidth={true}>
               Conectar
             </Button>
           :

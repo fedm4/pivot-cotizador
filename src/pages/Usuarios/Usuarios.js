@@ -1,5 +1,4 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Redirect} from 'react-router-dom';
 import Button from '../../components/Button/Button';
 import Panel from '../../components/Panel/Panel';
 import Table from '../../components/Table/Table';
@@ -8,7 +7,7 @@ import User from '../../models/User';
 import useAuthBlocker from '../../hooks/useAuthBlocker/useAuthBlocker';
 
 const Usuarios = () => {
-    const {firebase, setMessage, user} = useContext(MainContext);
+    const {firebase, setMessage} = useContext(MainContext);
     const [lista, setLista] = useState([]);
     const {isAuthorized, NotAuthorized} = useAuthBlocker('usuarios');
     
@@ -16,7 +15,7 @@ const Usuarios = () => {
         if(!firebase) return;
         User.getAll(firebase).then(data => setLista(data.map(item => ({id: item.id, email: item.email}))))
             .catch(err => {setMessage({message: err.message, type: 'error'})});
-    }, []);
+    }, [firebase, setMessage]);
     
     if(!isAuthorized) return (<NotAuthorized />);
     return (

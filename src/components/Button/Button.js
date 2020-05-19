@@ -3,7 +3,7 @@ import './Button.scss';
 import {Link} from 'react-router-dom';
 import ellipsis from './img/ellipsis.gif';
 
-const Button = ({children, handleOnClick, link, color, className, disabled, fullwidth, saving}) => {
+const Button = ({children, handleOnClick, link, color, className, disabled, fullwidth, saving, borderless}) => {
   return (
     link?
     <Link to={link}
@@ -12,7 +12,7 @@ const Button = ({children, handleOnClick, link, color, className, disabled, full
       {children}
     </Link>
     :
-    <button className={`button ${color} ${className} ${disabled} ${fullwidth?'fullwidth': ''} ${saving ? 'saving': ''}`}
+    <button className={`button ${color} ${className} ${disabled} ${fullwidth?'fullwidth': ''} ${saving ? 'saving': ''} ${borderless? 'borderless': ''}`}
       type="button"
       disabled={disabled}
       onClick={handleOnClick}

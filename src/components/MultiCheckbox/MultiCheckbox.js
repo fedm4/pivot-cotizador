@@ -8,8 +8,7 @@ const MultiCheckbox = ({data, label, values, setter, skeleton}) => {
         if(e.target.checked) {
             setter([...values, e.target.value]);
         } else {
-            console.log(values.filter(item => item != e.target.value));
-            setter(values.filter(item => item != e.target.value));
+            setter(values.filter(item => item !== e.target.value));
         }
     };
     return (

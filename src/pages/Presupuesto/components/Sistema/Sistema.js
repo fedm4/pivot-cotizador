@@ -10,7 +10,7 @@ import {faTrash} from '@fortawesome/free-solid-svg-icons';
 
 const Sistema = ({sistema, dispatch}) => {
   const [moduloModal, setModuloModal] = useState(false);
-  const {hiddenClass, toggleHidden, Icon} = useMinimizer(false);
+  const {hiddenClass, Icon} = useMinimizer(false);
 
   const deleteModulo = (item) => {
     const index = sistema.modulos.findIndex(mod => {

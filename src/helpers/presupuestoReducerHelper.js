@@ -1,5 +1,4 @@
 import {round} from './math';
-import { getPrecio } from '../services/sheets';
 
 export const getPrecioTotal = (clon, marcacion) => {
   const precioTotal = clon.reduce((acc, cur) => {

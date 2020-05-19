@@ -21,7 +21,7 @@ const MainHeader = () => {
         <FontAwesomeIcon icon={faUserAlt} />
         <animated.ul className="user-menu-list" style={userMenuListProps}>
           <li>
-            <a href="#" onClick={e => {e.preventDefault(); firebase.signOut()}}>Salir</a>
+            <button type="button" onClick={e => {firebase.signOut()}}>Salir</button>
           </li>
         </animated.ul>
       </section>

@@ -1,10 +1,8 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {Redirect} from 'react-router-dom';
 import Table from '../../components/Table/Table';
 import Panel from '../../components/Panel/Panel';
 import Button from '../../components/Button/Button';
 import './Presupuestos.scss';
-import {Link} from 'react-router-dom';
 import MainContext from '../../context/MainContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
@@ -34,7 +32,7 @@ const Presupuestos = () => {
         setLista(data);
       }).catch(e => setMessage({message: e.message, type: 'error'}));
     });
-  }, [isAuthorized]);
+  }, [isAuthorized, gapi.client, setMessage]);
   
   if(!isAuthorized) return (<NotAuthorized />);
   return (

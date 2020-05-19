@@ -8,8 +8,6 @@ import MainContext from '../../context/MainContext';
 import User from '../../models/User';
 import './Usuario.scss';
 import Role from '../../models/Role';
-import Select from '../../components/Select/Select';
-import {capitalizeFLetter} from '../../helpers/string';
 import MultiCheckbox from '../../components/MultiCheckbox/MultiCheckbox';
 import useAuthBlocker from '../../hooks/useAuthBlocker/useAuthBlocker';
 
@@ -41,6 +39,8 @@ const Usuarios = () => {
             case "cPassword":
                 setCPassword(e.target.value);
                 break;
+            default:
+                return;
         }
     };
 
@@ -96,7 +96,7 @@ const Usuarios = () => {
         } else {
             setDisplay(true);
         }
-    }, []);
+    }, [firebase, id, setMessage, user.role]);
 
     useEffect(() => {
         if(password.length >= 6

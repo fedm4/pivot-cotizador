@@ -1,16 +1,12 @@
-import React, {useContext, useState, useEffect} from 'react';
-import {Redirect} from 'react-router-dom';
-import MainContext from '../../context/MainContext';
+import React, {useState, useEffect} from 'react';
 import Table from '../../components/Table/Table';
 import Panel from '../../components/Panel/Panel';
-import Button from '../../components/Button/Button';
 import './Borradores.scss';
 import useAuthBlocker from '../../hooks/useAuthBlocker/useAuthBlocker';
 
 const Borradores = () => {
   const [borradores, setBorradores] = useState([]);
   const [lista, setLista] = useState([]);
-  const {user} = useContext(MainContext);
   const {isAuthorized, NotAuthorized} = useAuthBlocker('cotizador');
 
   useEffect(()=>{

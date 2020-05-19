@@ -1,9 +1,8 @@
 import React, {useContext, useState, useReducer, useEffect} from 'react';
-import {useParams, Redirect} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import Panel from '../../components/Panel/Panel';
 import Context from '../../context/MainContext';
-import Spreadsheets from '../../consts/spreadsheets';
-import {getAnchos, getPrecio, createPresupuestoFile } from '../../services/sheets';
+import {createPresupuestoFile } from '../../services/sheets';
 import DataForm from './components/DataForm/DataForm';
 import {initialState} from '../../consts/presupuesto';
 import SistemaModal from './components/SistemaModal/SistemaModal';
@@ -11,8 +10,6 @@ import Button from '../../components/Button/Button';
 import Sistema from './components/Sistema/Sistema';
 import PulseLoader from '../../components/PulseLoader/PulseLoader';
 import {
-  getPrecioTotal,
-  getSistemaIndex,
   setModulo,
   getDeleteModuloData,
   deleteSistema,
@@ -49,7 +46,7 @@ const Presupuesto = () => {
   const [state, dispatch] = useReducer(reducer, JSON.parse(JSON.stringify(initialState)));
   const [sistemaModal, setSistemaModal] = useState(false);
   const [writing, setWriting] = useState(false);
-  const {gapi, user} = useContext(Context);
+  const {gapi} = useContext(Context);
   const decodedNroPresupuesto = decodeURIComponent(nroPresupuesto);
   const {isAuthorized, NotAuthorized} = useAuthBlocker('cotizador');
 
@@ -63,7 +60,7 @@ const Presupuesto = () => {
         }
       }
     }
-  }, []);
+  }, [decodedNroPresupuesto]);
 
   useEffect(() => {
     console.log("update marcacion")
