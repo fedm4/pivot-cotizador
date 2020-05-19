@@ -45,10 +45,18 @@
       top: 0;
       width: 100vw;
       li button{
+        background: none;
+        border: none;
         box-sizing: border-box;
-        width: 100%;
-        height: 100%;
+        color: $blue;
+        cursor: pointer;
         display: inline-block;
+        height: 45px;
+        text-decoration: underline;
+        width: 100%;
+        &:focus {
+          outline: none;
+        }
       }
       @media (min-width: 768px){
         box-shadow: 0 0 4px #999;
