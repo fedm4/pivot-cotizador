@@ -18,7 +18,7 @@ import {
   deleteSistema,
   getPrecioTotalUpdate,
 } from '../../helpers/presupuestoReducerHelper';
-
+import useAuthBlocker from '../../hooks/useAuthBlocker/useAuthBlocker';
 
 const reducer = (state, action) => {
   switch(action.type) {
@@ -51,7 +51,8 @@ const Presupuesto = () => {
   const [writing, setWriting] = useState(false);
   const {gapi, user} = useContext(Context);
   const decodedNroPresupuesto = decodeURIComponent(nroPresupuesto);
-  
+  const {isAuthorized, NotAuthorized} = useAuthBlocker('cotizador');
+
   useEffect(() => {
     if(decodedNroPresupuesto) {
       const borradores = JSON.parse(localStorage.getItem("borradores"));
@@ -93,7 +94,7 @@ const Presupuesto = () => {
     await createPresupuestoFile(gapi, state, setWriting);
   };
 
-  if(user.roles.indexOf('cotizador') === -1) return (<div>No tenes permiso para estar aca</div>);
+  if(!isAuthorized) return (<NotAuthorized />);
   return (
     <Panel title="Presupuesto">
       <PulseLoader show={writing}></PulseLoader>

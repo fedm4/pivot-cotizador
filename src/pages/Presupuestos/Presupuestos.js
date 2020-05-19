@@ -8,13 +8,16 @@ import {Link} from 'react-router-dom';
 import MainContext from '../../context/MainContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
+import useAuthBlocker from '../../hooks/useAuthBlocker/useAuthBlocker';
 
 const Presupuestos = () => {
   const [lista, setLista] = useState([]);
-  const {gapi, user, setMessage}  = useContext(MainContext);
+  const {gapi, setMessage}  = useContext(MainContext);
+  const {isAuthorized, NotAuthorized} = useAuthBlocker('cotizador');
+
   useEffect(() => {
-    if(user.roles.indexOf('cotizador') === -1) return;
     const folderId = '1jGXdMGlHqCh4Zbewz9J-i1xOnTOLx4re';
+    if(!isAuthorized) return;
     gapi.client.load('drive', 'v2', async ()=>{
       gapi.client.drive.files.list({
         q: `'${folderId}' in parents`
@@ -31,9 +34,9 @@ const Presupuestos = () => {
         setLista(data);
       }).catch(e => setMessage({message: e.message, type: 'error'}));
     });
-  }, [user.roles]);
+  }, [isAuthorized]);
   
-  if(user.roles.indexOf('cotizador') === -1) return (<div>No tenes permiso para estar aca</div>);
+  if(!isAuthorized) return (<NotAuthorized />);
   return (
     <Panel title="Presupuestos">
       <Table columns={['No Presupuesto', 'Cliente', "Fecha", "Descargar"]} data={lista} edit={false} />
@@ -42,7 +45,7 @@ const Presupuestos = () => {
         <Button color="green" className="ml-15" handleClick={e=>{}} link="/presupuesto">Nuevo</Button>
       </footer>
     </Panel>
-    );
+  );
 }
 
 export default Presupuestos;

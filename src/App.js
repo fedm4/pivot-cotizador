@@ -24,6 +24,7 @@ import Modal from './components/Modal/Modal';
 const App = () => {
   const gapi = window.gapi;
   const [isGappsSignedIn, setIsGappsSignedIn] = useState(false);
+  const [currentPath, setCurrentPath] = useState('/');
   const [user, setUser] = useState(new User({
     id: null,
     email: null,
@@ -37,7 +38,7 @@ const App = () => {
     handleSignOutClick
   } = gappsSignInService(gapi, setIsGappsSignedIn);
 
-  useEffect(()=>{
+  const onLoadFirebase = () => {
     handleClientLoad();
     firebase.onAuthStateChanged(user => {
       if(user && user.email){
@@ -53,6 +54,11 @@ const App = () => {
         setUser(null);
       }
     });
+  };
+
+  useEffect(()=>{
+    onLoadFirebase();
+
   }, []);
 
   return (

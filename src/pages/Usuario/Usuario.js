@@ -11,6 +11,7 @@ import Role from '../../models/Role';
 import Select from '../../components/Select/Select';
 import {capitalizeFLetter} from '../../helpers/string';
 import MultiCheckbox from '../../components/MultiCheckbox/MultiCheckbox';
+import useAuthBlocker from '../../hooks/useAuthBlocker/useAuthBlocker';
 
 const Usuarios = () => {
     const {firebase, user, setMessage} = useContext(MainContext);
@@ -25,6 +26,9 @@ const Usuarios = () => {
     const [display, setDisplay] = useState(false);
     const [saving, setSaving] = useState(false);
     const [back, setBack] = useState(false);
+
+    const {isAuthorized, NotAuthorized} = useAuthBlocker('usuarios');
+
 
     const handleInputChange = e => {
         switch(e.target.name) {
@@ -103,7 +107,7 @@ const Usuarios = () => {
         }
     }, [password, cPassword]);
 
-    if(user.roles.indexOf('usuarios') === -1) return (<div>No tenes permisos para acceder aqui</div>);
+    if(!isAuthorized) return (<NotAuthorized />);
     if(back) return (<Redirect to="/usuarios" />);
     return (
         <Panel title="Usuario">

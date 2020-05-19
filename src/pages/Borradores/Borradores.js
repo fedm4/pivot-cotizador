@@ -5,11 +5,13 @@ import Table from '../../components/Table/Table';
 import Panel from '../../components/Panel/Panel';
 import Button from '../../components/Button/Button';
 import './Borradores.scss';
+import useAuthBlocker from '../../hooks/useAuthBlocker/useAuthBlocker';
 
 const Borradores = () => {
   const [borradores, setBorradores] = useState([]);
   const [lista, setLista] = useState([]);
   const {user} = useContext(MainContext);
+  const {isAuthorized, NotAuthorized} = useAuthBlocker('cotizador');
 
   useEffect(()=>{
     const borradores = JSON.parse(localStorage.getItem("borradores"));
@@ -35,7 +37,7 @@ const Borradores = () => {
     localStorage.setItem("borradores", JSON.stringify(clon));
   };
 
-  if(user.roles.indexOf('cotizador') === -1) return (<div>No tenes permiso para estar aca</div>);
+  if(!isAuthorized) return (<NotAuthorized />);
   return (
     <Panel title="Borradores">
       <Table
