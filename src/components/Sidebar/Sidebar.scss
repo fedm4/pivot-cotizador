@@ -4,7 +4,6 @@
   box-sizing: border-box;
   min-height: calc(100vh - 80px);
   width: 150px;
-  padding-top: 15px;
   .sidebar-nav {
     a {
       border-left: 0 solid $red;
@@ -14,8 +13,8 @@
       width: 100%;
       padding: 15px;
       display: inline-block;
-      margin-top: 15px;
       transition: all 0.3s linear; 
+
       &.active, &:hover{
         color: #ea2f2f;
         padding-left: 10px;

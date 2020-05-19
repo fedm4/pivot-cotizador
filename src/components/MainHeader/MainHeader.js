@@ -15,7 +15,7 @@ const MainHeader = () => {
   return (
     <header id="main-header">
       <div className="img-container">
-        <img src={LogoPivot} alt="Logo Pivot" />
+        <a href="/"><img src={LogoPivot} alt="Logo Pivot" /></a>
       </div>
       <section className="user-menu" onClick={() => setShowUserMenu(!showUserMenu)}>
         <FontAwesomeIcon icon={faUserAlt} />
