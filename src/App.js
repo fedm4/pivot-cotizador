@@ -20,6 +20,7 @@ import firebase from './services/firebase';
 import './App.scss';
 import User from './models/User';
 import Modal from './components/Modal/Modal';
+import MainScreen from './pages/MainScreen/MainScreen';
 
 const App = () => {
   const gapi = window.gapi;
@@ -92,7 +93,7 @@ const App = () => {
                       <Usuario />
                     </Route>
                     <Route exact path="/" >
-                      <div>Bienvenido</div>
+                      <MainScreen />
                     </Route>
                     <Route exact path="/presupuestos">
                       <Presupuestos></Presupuestos>

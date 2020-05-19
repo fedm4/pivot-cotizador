@@ -1,0 +1,30 @@
+@import '../../../../scss/common/variables';
+
+.section-card {
+    align-items: center;
+    background-color: $dark-gray;
+    border-radius: 3px;
+    box-shadow: 0 0 5px $darker-gray;
+    box-sizing: border-box;
+    display: flex;
+    height: 120px;
+    justify-content: center;
+    margin-bottom: 25px;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    transition: transform 0.2s linear;
+    width: 300px;
+    .section-card-icon {
+        position: absolute;
+        left: -30px;
+        width: 75px;
+    }
+    .section-card-title {
+        color: $white;
+        font-weight: 400;
+    }
+    &:hover {
+        transform: scale(1.05) translateY(-10px);
+    }
+}
