@@ -25,6 +25,7 @@
         font-weight: 400;
     }
     &:hover {
+        box-shadow: 0 0 5px 2px $red;
         transform: scale(1.05) translateY(-10px);
     }
 }
