@@ -35,15 +35,20 @@
   }
   header {
     padding: 15px;
-    &.error {
+    &.error, &.warning {
       align-items: center;
-      background-color: $red;
       color: $white;
       display: flex;
       justify-content: center;
       .close-icon svg{
         color: white;
       }
+    }
+    &.error {
+      background-color: $red;
+    }
+    &.warning {
+      background-color: $yellow;
     }
   }
   .content {

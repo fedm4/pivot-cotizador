@@ -7,15 +7,18 @@ import './Modal.scss';
 const Modal = ({isOpen, closeModal, contentCentered, children, height, type}) => {
    const [title, setTitle] = useState(null);
    const modalProps = useSpring({
-        top: isOpen ? '15vh': '-40vh',
         height: height+'px',
-        from : {top: '-40vh'},
+        from: {top: isOpen ? '-40vh': '15vh', delay: '0.5s'},
+        to:{top: isOpen ? '15vh': '-40vh'},
         delay: '0.5s'
     });
     useEffect(() => {
       switch(type) {
         case "error":
           setTitle('Ups! Algo salió mal.');
+          break;
+        case "warning":
+          setTitle('Info');
           break;
         default:
           setTitle(null);

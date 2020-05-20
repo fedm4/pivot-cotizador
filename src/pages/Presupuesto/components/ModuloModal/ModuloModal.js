@@ -79,6 +79,7 @@ const ModuloModal = ({sistema, isOpen, setIsOpen, state, dispatch}) => {
         seleccionar={true}
         onChange={e=>setModulo(e.value)}
         options={modulos}
+        _value={modulo}
       />
       <Select
         className="fwidth-item"
@@ -86,6 +87,7 @@ const ModuloModal = ({sistema, isOpen, setIsOpen, state, dispatch}) => {
         seleccionar={true}
         onChange={e=>setAlto(e.value)}
         options={altos}
+        _value={alto}
       />
       <Select
         className="fwidth-item"
@@ -93,6 +95,7 @@ const ModuloModal = ({sistema, isOpen, setIsOpen, state, dispatch}) => {
         seleccionar={true}
         onChange={e=>setAncho(e.value)}
         options={anchos}
+        _value={ancho}
       />
       <Input
         className="fwidth-item"

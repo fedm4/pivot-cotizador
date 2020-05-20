@@ -20,13 +20,14 @@ const SistemaModal = ({isOpen, setIsOpen, state, dispatch}) => {
         seleccionar={true}
         onChange={e=>setSistema(e.value)}
         options={Tabiques}
+        _value={sistema}
       />
       <Input 
         className="fwidth-item"
         type="text"
         placeholder="Referencia"
         label="Referencia"
-        handleChange={e=>setReferencia(e.value)}
+        handleChange={e=>setReferencia(e.target.value)}
       />
       <Button color="blue" handleOnClick={handleClick}>Guardar</Button>
     </Modal>
