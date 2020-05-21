@@ -19,7 +19,7 @@ export const initialState = {
     titulo: "",
     bajada: "",
     pie: footerTextTemplate,
-    maracacion: 1
+    marcacion: 1
   },
   sistemas: [
     /*{
@@ -37,5 +37,8 @@ export const initialState = {
       ]
     }*/
   ],
-  precioTotal: 0
+  precioTotal: 0,
+  deleted: false,
+  createdDate: null,
+  updatedDate: null
 };

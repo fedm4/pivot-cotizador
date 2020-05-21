@@ -35,7 +35,7 @@
   }
   header {
     padding: 15px;
-    &.error, &.warning {
+    &.error, &.warning, &.success {
       align-items: center;
       color: $white;
       display: flex;
@@ -49,6 +49,9 @@
     }
     &.warning {
       background-color: $yellow;
+    }
+    &.success {
+      background-color: $green;
     }
   }
   .content {

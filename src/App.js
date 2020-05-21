@@ -11,7 +11,6 @@ import {
 } from 'react-router-dom';
 import Presupuestos from './pages/Presupuestos/Presupuestos';
 import Presupuesto from './pages/Presupuesto/Presupuesto';
-import Borradores from './pages/Borradores/Borradores';
 import Usuarios from './pages/Usuarios/Usuarios';
 import Usuario from './pages/Usuario/Usuario';
 import gappsSignInService from './services/gappsSignIn';
@@ -55,7 +54,7 @@ const App = () => {
         setUser(null);
       }
     });
-  }, [handleClientLoad]);
+  }, []);
 
   return (
     <MainContext.Provider
@@ -104,10 +103,7 @@ const App = () => {
                     <Route exact path="/presupuesto">
                       <Presupuesto></Presupuesto>
                     </Route>
-                    <Route exact path="/borradores">
-                      <Borradores></Borradores>
-                    </Route>
-                    <Route exact path="/borrador/:nroPresupuesto">
+                    <Route exact path="/presupuesto/:id">
                       <Presupuesto></Presupuesto>
                     </Route>
                   </Switch>

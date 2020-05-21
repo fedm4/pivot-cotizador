@@ -20,6 +20,9 @@ const Modal = ({isOpen, closeModal, contentCentered, children, height, type}) =>
         case "warning":
           setTitle('Info');
           break;
+        case "success":
+          setTitle('Exito!');
+          break;
         default:
           setTitle(null);
       }

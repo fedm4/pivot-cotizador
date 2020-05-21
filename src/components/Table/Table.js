@@ -45,7 +45,7 @@ const Table = props =>{
                         )
                     })
                     : props.data.length === 0 ?
-                        (<td className="no-data" colspan={props.columns.length}>Sin datos</td>)
+                        (<tr><td className="no-data" colSpan={props.columns.length}>Sin datos</td></tr>)
                         :
                         null
                 }

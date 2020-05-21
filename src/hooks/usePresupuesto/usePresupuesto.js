@@ -17,7 +17,7 @@ const reducer = (state, action) => {
         sistemas.push({sistema: action.payload.sistema, referencia:action.payload.referencia, modulos: []});
         return {...state, sistemas};
       case 'setAll':
-          return {state};
+          return action.payload;
       case 'setModulo':
         return setModulo(state, action);
       case 'setAllState':
@@ -45,16 +45,20 @@ const usePresupuesto = (_id) => {
     const create = async () => {
         try {
             const res = await firebase.database.collection(collection)
-                .add({
-                    datos: state.datos,
-                    sistemas: state.sistemas,
-                    precioTotal: state.precioTotal
-                });
+                .add(state);
             setId(res.id);
         } catch(err) {
             throw new Error(`Error creando presupuesto - ${err}`);
         }
     }
+
+    const update = async () => {
+      try {
+        await firebase.update(collection, id, state);
+      } catch(err) {
+        throw new Error(`Error actualizando presupuesto - ${err}`);
+      }
+    };
 
     /**
      * 
@@ -64,7 +68,6 @@ const usePresupuesto = (_id) => {
             const ret = await firebase.collection(collection).doc(id).get();
             const data = ret.data();
             dispatch({type: 'setAll', payload: data});
-            setId(id);
         }catch(err){
             throw new Error(`Error obteniendo presupuesto por id ${id} - ${err}`);
         }
@@ -78,10 +81,7 @@ const usePresupuesto = (_id) => {
               const data = doc.data();
               return ({
                 id: doc.id,
-                nroPresupuesto: data.datos.nroPresupuesto,
-                cliente: data.datos.cliente,
-                obra: data.datos.obra,
-                titulo: data.datos.titulo
+                ...data
               });
           });
           setLoading(false);
@@ -98,6 +98,7 @@ const usePresupuesto = (_id) => {
         getById,
         id,
         state,
+        update
     };
 
 };

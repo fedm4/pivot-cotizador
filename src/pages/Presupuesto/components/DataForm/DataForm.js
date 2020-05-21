@@ -102,7 +102,7 @@ const DataForm = ({state, dispatch}) => {
         placeholder="1.25"
         label="Marcación"
         value={state.datos.marcacion}
-        handleChange={handleChange}
+        handleChange={e => e.target.value ? handleChange(e) : null}
       />
       <label className="fwidth-item">
         <span>Bajada / Texto General</span>

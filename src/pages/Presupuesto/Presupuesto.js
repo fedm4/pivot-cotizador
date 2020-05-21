@@ -1,4 +1,4 @@
-import React, {useContext, useState, useReducer, useEffect} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {useParams} from 'react-router-dom';
 import Panel from '../../components/Panel/Panel';
 import Context from '../../context/MainContext';
@@ -7,14 +7,13 @@ import DataForm from './components/DataForm/DataForm';
 import SistemaModal from './components/SistemaModal/SistemaModal';
 import Button from '../../components/Button/Button';
 import Sistema from './components/Sistema/Sistema';
-import PulseLoader from '../../components/PulseLoader/PulseLoader';
 
 import useAuthBlocker from '../../hooks/useAuthBlocker/useAuthBlocker';
 import MainContext from '../../context/MainContext';
 import usePresupuesto from '../../hooks/usePresupuesto/usePresupuesto';
 
 const Presupuesto = () => {
-  const {id} = useParams();
+  const {id: paramId} = useParams();
   const {setMessage} = useContext(MainContext);
   const [sistemaModal, setSistemaModal] = useState(false);
   const [writing, setWriting] = useState(false);
@@ -25,25 +24,38 @@ const Presupuesto = () => {
     create,
     dispatch,
     getById,
-    state} = usePresupuesto();
+    state,
+    id,
+    update
+  } = usePresupuesto(paramId);
 
 
   useEffect(() => {
     dispatch({type: 'setPrecioTotal'});
-  }, [state.datos.marcacion])
+  }, [state.datos.marcacion, dispatch])
+
+  useEffect(() => {
+    if(paramId) {
+      getById()
+        .catch(e => setMessage({message: e.message, type: 'error'}));
+    }
+  }, []);
 
   const guardar = () => {
     setSaving(true);
-    if(id) {
+    if(!id && !paramId) {
       create()
         .then(()=>setSaving(false))
+        .then(()=>setMessage({message: 'Presupuesto guardado', type:'success'}))
         .catch(e => {
           setMessage({message: e.message, type: 'error'});
-          setSaving(false);
         });
     } else {
-      setMessage({message: 'Not implemented', type:'error'});
+      update()
+        .then(() => setMessage({message: 'Presupuesto guardado', type:'success'}))
+        .catch(e => setMessage({message: e.message, type:'error'}));
     }
+    setSaving(false);
   };
 
   const handleGenerarPresupuesto = async () => {
@@ -86,6 +98,11 @@ const Presupuesto = () => {
             handleOnClick={handleGenerarPresupuesto}
             saving={writing}
           >Generar Presupuesto</Button>
+          <Button
+            className="ml-15"
+            color="red"
+            link="/presupuestos"
+          >Volver</Button>
         </div>
       </form>
     </Panel>

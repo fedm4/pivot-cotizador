@@ -1,7 +1,11 @@
 import React, {useState, useEffect, useContext} from 'react';
+import {Link} from 'react-router-dom';
 import Table from '../../components/Table/Table';
 import Panel from '../../components/Panel/Panel';
 import Button from '../../components/Button/Button';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faArchive} from '@fortawesome/free-solid-svg-icons';
+
 import './Presupuestos.scss';
 import MainContext from '../../context/MainContext';
 import useAuthBlocker from '../../hooks/useAuthBlocker/useAuthBlocker';
@@ -15,11 +19,18 @@ const Presupuestos = () => {
 
   useEffect(() => {
     getAll()
-      .then(data => {
-        setLista(data);
-      })
+      .then(data => data.map(item => ({
+          id: item.id,
+          noPresupuesto: item.datos.nroPresupuesto,
+          cliente: item.datos.cliente,
+          obra: item.datos.obra,
+          titulo: item.datos.titulo,
+          historial: <Link to={`/historial/${item.id}`}><FontAwesomeIcon icon={faArchive} /></Link>
+       }))
+      )
+      .then(data => setLista(data))
       .catch(e => setMessage({message: e.message, type: 'error'}));
-  }, []);
+  }, [getAll, setMessage]);
   
   if(!isAuthorized) return (<NotAuthorized />);
   return (
@@ -31,8 +42,7 @@ const Presupuestos = () => {
         loading={loading}
       />
       <footer className="presupuestos-footer">
-        <Button link="/borradores" color="yellow">Ver Borradores</Button>
-        <Button color="green" className="ml-15" handleClick={e=>{}} link="/presupuesto">Nuevo</Button>
+        <Button color="green" className="ml-15" link="/presupuesto">Nuevo</Button>
       </footer>
     </Panel>
   );
