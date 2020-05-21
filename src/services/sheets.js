@@ -19,10 +19,9 @@ export const getAltos = async (gapi, setAltos, planilla, hoja) => {
       spreadsheetId: planilla,
       range: `${hoja}!B23:B138`,
     });
-    const altos = results.result.values.filter(item => item != "" && item != null);
+    const altos = results.result.values.filter(item => item !== "" && item !== null);
     const altosList = altos.map(alto => {return {label:alto[0], value:alto[0]}});
-    //const altosFiltered = altosList.filter(alto => altosList.find(item=>item.label === alto.label))
-
+    
     const altosFiltered = removeDuplicatesAndOrder(altosList);
     setAltos(altosFiltered);
   } catch (err) {
@@ -37,7 +36,7 @@ export const getAnchos = async (gapi, alto, setAnchos, planilla, hoja) => {
       spreadsheetId: planilla,
       range: `${hoja}!B23:C108`,
     });
-    const anchos = results.result.values.filter(item => item != "" && item != null);
+    const anchos = results.result.values.filter(item => item !== "" && item !== null);
     const anchosList = anchos.filter(item => item[0] === alto)
       .map(ancho => {return {label:ancho[1], value:ancho[1]}});
     const anchosFiltered = removeDuplicatesAndOrder(anchosList);
@@ -55,7 +54,7 @@ export const getPrecio = async (gapi, ancho, planilla, hoja, setPrecio, alto) =>
       spreadsheetId: planilla,
       range: `${hoja}!B23:AE108`,
     });
-    const fila = results.result.values.filter(fila=> fila[1] == ancho && fila[0]==alto)[0];
+    const fila = results.result.values.filter(fila=> fila[1] === ancho && fila[0] === alto)[0];
     setPrecio(round(fila[PRICE_INDEX]));
   } catch (err) {
     throw err;
@@ -85,8 +84,7 @@ const moveFile = async(gapi, spreadsheetId) => {
       fileId: spreadsheetId,
       fields: 'id, parents'
     });
-    console.log(file);
-    const movedFile = await gapi.client.drive.files.update({
+    await gapi.client.drive.files.update({
       fileId: spreadsheetId,
       addParents: folderId,
       removeParents: file.result.parents.reduce((acc, cur) => `${acc},${cur.id}`, ""),
@@ -112,7 +110,6 @@ const copyPresupuestoBase = async (gapi, spreadsheetId) => {
   return copy.sheetId;
 };
 const writeToPresupuesto = async (gapi, spreadsheetId, presupuesto) => {
-  let data;
   const headerValues = {
     values: [
         [presupuesto.datos.cliente],
@@ -123,26 +120,26 @@ const writeToPresupuesto = async (gapi, spreadsheetId, presupuesto) => {
         [presupuesto.datos.email]
       ]
   };
-  data = await gapi.client.sheets.spreadsheets.values.update({
+  await gapi.client.sheets.spreadsheets.values.update({
     spreadsheetId,
     range: 'Copy of BASE!D4:D9',
     valueInputOption:'RAW',
     resource: headerValues
   });
-  data = await gapi.client.sheets.spreadsheets.values.update({
+  await gapi.client.sheets.spreadsheets.values.update({
     spreadsheetId,
     range: 'Copy of BASE!J5',
     valueInputOption:'RAW',
     resource: {values: [[presupuesto.datos.nroPresupuesto]]}
   });
-  data = await gapi.client.sheets.spreadsheets.values.update({
+  await gapi.client.sheets.spreadsheets.values.update({
     spreadsheetId,
     range: 'Copy of BASE!J8',
     valueInputOption:'RAW',
     resource: {values:[[getPresupuestoDate()]]}
   });
 
-  data = await gapi.client.sheets.spreadsheets.values.update({
+  await gapi.client.sheets.spreadsheets.values.update({
     spreadsheetId,
     range: 'Copy of BASE!K19',
     valueInputOption:'RAW',
@@ -151,7 +148,7 @@ const writeToPresupuesto = async (gapi, spreadsheetId, presupuesto) => {
 
   let footerRowCount = 22;
   for(let line of presupuesto.datos.pie.split("\n")) {
-    data = await gapi.client.sheets.spreadsheets.values.append({
+    await gapi.client.sheets.spreadsheets.values.append({
       spreadsheetId,
       range: `Copy of BASE!B${footerRowCount}`,
       valueInputOption: 'RAW',
@@ -170,7 +167,7 @@ const writeToPresupuesto = async (gapi, spreadsheetId, presupuesto) => {
   let rowCount = 16;
   for (let sistema of  presupuesto.sistemas) {
 
-    data = await gapi.client.sheets.spreadsheets.values.append({
+    await gapi.client.sheets.spreadsheets.values.append({
       spreadsheetId,
       range: `Copy of BASE!A${rowCount}:D${rowCount}`,
       valueInputOption: 'RAW',
@@ -182,7 +179,7 @@ const writeToPresupuesto = async (gapi, spreadsheetId, presupuesto) => {
     });
     rowCount++;
     for(let modulo of sistema.modulos) {
-      data = await gapi.client.sheets.spreadsheets.values.append({
+      await gapi.client.sheets.spreadsheets.values.append({
         spreadsheetId,
         range: `Copy of BASE!B${rowCount}:${rowCount}`,
         valueInputOption: 'RAW',
@@ -199,16 +196,14 @@ const writeToPresupuesto = async (gapi, spreadsheetId, presupuesto) => {
   };
 
 }
-export const createPresupuestoFile = async (gapi, presupuesto, setWriting) =>{
+export const createPresupuestoFile = async (gapi, presupuesto) =>{
   try {
     const newFile = await createFile(gapi, presupuesto.datos.nroPresupuesto, presupuesto.datos.cliente); 
     await moveFile(gapi, newFile.result.spreadsheetId);
-    const sheetId = await copyPresupuestoBase(gapi, newFile.result.spreadsheetId);
+    await copyPresupuestoBase(gapi, newFile.result.spreadsheetId);
     await writeToPresupuesto(gapi, newFile.result.spreadsheetId, presupuesto);
-    alert("Presupuesto creado");
+    return newFile.result.spreadsheetUrl;
   } catch (err) {
-    alert("Error creando presupuesto");
     throw err;
   }
-  setWriting(false);
 }

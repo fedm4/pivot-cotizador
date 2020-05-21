@@ -7,9 +7,14 @@
   color: $white;
   cursor: pointer;
   font-size: 15px;
+  height: 41px;
+  overflow: hidden;
   padding: 10px 15px;
   text-decoration: none;
   transition: all 0.3s linear;
+  &.borderless {
+    border: none;
+  }
   &:hover{
     background-color: $light-gray;
   }
@@ -19,6 +24,7 @@
   &:active{
     border: 1px inset $dark-gray;
   }
+  &.fullwidth{ width: 100%; }
   &.yellow{
     background-color: $yellow;
     &:hover{
@@ -34,7 +40,11 @@
       background-color: darken($green, 10);
     }
     &.disabled {
-      background-color: lighten($green, 20);
+      $color: mix($green,#999);
+      background-color: $color;
+      &:hover {
+        background-color: $color;
+      }
     }
   }
   &.red {
@@ -54,5 +64,12 @@
     &.disabled {
       background-color: lighten($blue, 20);
     }
+  }
+  &.saving {
+    background-color: $white!important;
+  }
+  .ellipsis {
+    width: 70px;
+    margin-top: -25px;
   }
 }

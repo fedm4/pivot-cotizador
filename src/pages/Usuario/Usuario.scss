@@ -1,0 +1,33 @@
+@import '../../scss/common/variables';
+
+.user-form {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+  transition: all 0.3s linear;
+  & > span {
+    box-sizing: border-box;
+    padding: 2px 5px;
+    display: inline-block;
+    width: 50%;
+  }
+}
+.grid-item{
+  box-sizing: border-box;
+  display: block;
+  width: 33%;
+  padding: 10px; 
+
+  input {
+    box-sizing: border-box;
+    height: 30px;
+    margin-top: 5px;
+    padding-left: 15px;
+    width: 100%;
+  }
+}
+.hwidth-item {
+  box-sizing: border-box;
+  padding: 10px;
+  width: 50%;
+}

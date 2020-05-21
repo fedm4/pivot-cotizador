@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Input from '../../../../components/Input/Input';
 
 import './DataForm.scss';
@@ -6,8 +6,7 @@ import './DataForm.scss';
 import useMinimizer from '../../../../hooks/useMinimizer';
 
 const DataForm = ({state, dispatch}) => {
-  const [hidden, setHidden] = useState(true);
-  const {hiddenClass, toggleHidden, Icon} = useMinimizer(true);
+  const {hiddenClass, Icon} = useMinimizer(true);
   const handleChange = e =>dispatch({type:'setData', payload: e.target.value, key: e.target.name});
   return (
     <div className={`data-form ${hiddenClass}`}>
@@ -103,7 +102,7 @@ const DataForm = ({state, dispatch}) => {
         placeholder="1.25"
         label="Marcación"
         value={state.datos.marcacion}
-        handleChange={handleChange}
+        handleChange={e => e.target.value ? handleChange(e) : null}
       />
       <label className="fwidth-item">
         <span>Bajada / Texto General</span>

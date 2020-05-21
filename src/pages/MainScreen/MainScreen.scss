@@ -1,0 +1,10 @@
+.main-screen {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 50px;
+    max-width: 950px;
+    @media (min-width: 1200px) {
+        margin: 50px auto;
+    }
+}

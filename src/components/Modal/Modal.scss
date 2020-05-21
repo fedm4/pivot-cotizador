@@ -12,13 +12,12 @@
   background-color: white;
   box-sizing: border-box;
   width: 350px;
-  height: 350px;
+  //height: 350px;
   box-shadow: 0 0 5px $gray;
-  padding: 25px;
   position: fixed;
   text-align: center;
   left: calc(50% - 175px);
-  top: 10vh;
+  //top: 10vh;
   z-index: 10;
   .close-icon {
     background-color: transparent;
@@ -32,6 +31,36 @@
     }
     svg {
       font-size: 20px;
+    }
+  }
+  header {
+    padding: 15px;
+    &.error, &.warning, &.success {
+      align-items: center;
+      color: $white;
+      display: flex;
+      justify-content: center;
+      .close-icon svg{
+        color: white;
+      }
+    }
+    &.error {
+      background-color: $red;
+    }
+    &.warning {
+      background-color: $yellow;
+    }
+    &.success {
+      background-color: $green;
+    }
+  }
+  .content {
+    padding: 25px;
+    .center {
+      align-items: center;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
     }
   }
 }

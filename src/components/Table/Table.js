@@ -1,9 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import './Table.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCopy, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTimes } from '@fortawesome/free-solid-svg-icons';
 import {Link} from 'react-router-dom';
+import Skeleton from 'react-loading-skeleton';
 
 const Table = props =>{
     const editClick = (event,user) => {
@@ -33,6 +33,22 @@ const Table = props =>{
                 </tr>
             </thead>
             <tbody>
+                {
+                    props.data.length === 0 && props.loading ?
+                    [0,1,2,3,4].map((item) => {
+                        return (
+                            <tr key={`skeleton-${item}`}>
+                                {props.columns.map((col) => <td key={`skeleton-td-${col}${item}`}><Skeleton /></td>)}
+                                {props.edit || props.editLink ? <td><Skeleton /></td> :null}
+                                {props.delete? <td><Skeleton /></td> : null}
+                            </tr>
+                        )
+                    })
+                    : props.data.length === 0 ?
+                        (<tr><td className="no-data" colSpan={props.columns.length}>Sin datos</td></tr>)
+                        :
+                        null
+                }
                 {props.data.map((item, index) => {
                     return (
                         <tr key={`table-${index}`}>
@@ -43,7 +59,7 @@ const Table = props =>{
                                 props.edit?
                                 <td>
                                     <button onClick={event => {editClick(event, item)}}>
-                                        <FontAwesomeIcon className="edit-icon" icon={faCopy}></FontAwesomeIcon>
+                                        <FontAwesomeIcon className="edit-icon" icon={faEdit}></FontAwesomeIcon>
                                     </button> 
                                 </td>
                                 :null
@@ -52,7 +68,7 @@ const Table = props =>{
                                 props.editLink ?
                                 <td>
                                     <Link to={`${props.editLink.to}${encodeURIComponent(item[props.editLink.key])}`}>
-                                        <FontAwesomeIcon className="edit-icon" icon={faCopy}></FontAwesomeIcon>
+                                        <FontAwesomeIcon className="edit-icon" icon={faEdit}></FontAwesomeIcon>
                                     </Link>
                                 </td>
                                 :null

@@ -18,8 +18,9 @@ const SistemaModal = ({isOpen, setIsOpen, state, dispatch}) => {
         className="fwidth-item"
         label="Tabique"
         seleccionar={true}
-        onChange={e=>setSistema(e.target.value)}
+        onChange={e=>setSistema(e.value)}
         options={Tabiques}
+        _value={sistema}
       />
       <Input 
         className="fwidth-item"

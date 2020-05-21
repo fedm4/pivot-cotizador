@@ -1,22 +1,28 @@
 import React from 'react';
 import './Button.scss';
 import {Link} from 'react-router-dom';
+import ellipsis from './img/ellipsis.gif';
 
-const Button = ({children, handleOnClick, link, color, className, disabled}) => {
+const Button = ({children, handleOnClick, link, color, className, disabled, fullwidth, saving, borderless}) => {
   return (
     link?
     <Link to={link}
-      className={`button ${color} ${className}`}
+      className={`button ${color} ${className} ${disabled} ${saving ? 'saving': ''}`}
     >
       {children}
     </Link>
     :
-    <button className={`button ${color} ${className} ${disabled}`}
+    <button className={`button ${color} ${className} ${disabled} ${fullwidth?'fullwidth': ''} ${saving ? 'saving': ''} ${borderless? 'borderless': ''}`}
       type="button"
       disabled={disabled}
       onClick={handleOnClick}
     >
-      {children}
+      {
+        saving?
+        <img src={ellipsis} alt="ellipsis" className="ellipsis" />
+        :
+        children
+      }
     </button>
   )
 };

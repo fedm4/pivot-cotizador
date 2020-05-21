@@ -1,0 +1,10 @@
+.multicheckbox {
+    box-sizing: border-box;
+    padding: 10px;
+    width: 50%;
+    .multicheckbox-label {
+        display: inline-block;
+        text-transform: capitalize;
+        width: 50%;
+    }
+}

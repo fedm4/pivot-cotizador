@@ -27,7 +27,7 @@ const ModuloModal = ({sistema, isOpen, setIsOpen, state, dispatch}) => {
   useEffect(() => {
     setPlanilla(Spreadsheets[sistema.sistema].planilla);
     setModulos(Spreadsheets[sistema.sistema].modulos.map(mod=>({label:mod.modulo, value:mod.hoja})));
-  }, []);
+  }, [sistema.sistema]);
 
   useEffect(()=>{
     if(!isOpen) {
@@ -42,24 +42,23 @@ const ModuloModal = ({sistema, isOpen, setIsOpen, state, dispatch}) => {
   useEffect(() => {
     if(modulo===null) return;
     getAltos(gapi, setAltos, planilla, modulo);
-  }, [modulo]);
+  }, [modulo, gapi, planilla]);
 
   useEffect(() => {
     if(alto === null) return;
     getAnchos(gapi, alto, setAnchos, planilla, modulo);
-  }, [alto])
+  }, [alto, gapi, modulo, planilla])
 
   useEffect(() => {
     if(ancho === null || alto === null) return;
     getPrecio(gapi, ancho, planilla, modulo, setPrecioUnitario, alto);
-  }, [ancho, alto])
+  }, [ancho, alto, gapi, modulo, planilla])
 
   useEffect(()=>{
     const variableFix = !variable ? 1 : variable;
     setPrecioFinal(round(cantidad * precioUnitario * variableFix));
   }, [cantidad, precioUnitario, variable]);
 
-  //e=>getPrecio(gapi, ancho, planilla, setPrecio)
   const handleClick = e => {
     dispatch({type: 'setModulo', sistema, payload: {modulo,cantidad,alto,ancho,variable,precioUnitario,precioFinal}});
     setIsOpen(false);
@@ -78,22 +77,25 @@ const ModuloModal = ({sistema, isOpen, setIsOpen, state, dispatch}) => {
         className="fwidth-item"
         label="Modulo"
         seleccionar={true}
-        onChange={e=>setModulo(e.target.value)}
+        onChange={e=>setModulo(e.value)}
         options={modulos}
+        _value={modulo}
       />
       <Select
         className="fwidth-item"
         label="Alto"
         seleccionar={true}
-        onChange={e=>setAlto(e.target.value)}
+        onChange={e=>setAlto(e.value)}
         options={altos}
+        _value={alto}
       />
       <Select
         className="fwidth-item"
         label="Ancho"
         seleccionar={true}
-        onChange={e=>setAncho(e.target.value)}
+        onChange={e=>setAncho(e.value)}
         options={anchos}
+        _value={ancho}
       />
       <Input
         className="fwidth-item"
