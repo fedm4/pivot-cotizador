@@ -4,40 +4,32 @@ import Panel from '../../components/Panel/Panel';
 import Button from '../../components/Button/Button';
 import './Presupuestos.scss';
 import MainContext from '../../context/MainContext';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCopy } from '@fortawesome/free-solid-svg-icons';
 import useAuthBlocker from '../../hooks/useAuthBlocker/useAuthBlocker';
+import usePresupuesto from '../../hooks/usePresupuesto/usePresupuesto';
 
 const Presupuestos = () => {
   const [lista, setLista] = useState([]);
-  const {gapi, setMessage}  = useContext(MainContext);
+  const {loading, setMessage}  = useContext(MainContext);
   const {isAuthorized, NotAuthorized} = useAuthBlocker('cotizador');
+  const {getAll} = usePresupuesto();
 
   useEffect(() => {
-    const folderId = '1jGXdMGlHqCh4Zbewz9J-i1xOnTOLx4re';
-    if(!isAuthorized) return;
-    gapi.client.load('drive', 'v2', async ()=>{
-      gapi.client.drive.files.list({
-        q: `'${folderId}' in parents`
-      }).then(response => {
-        const data = response.result.items.map(item => {
-          const [nroPresupuesto, cliente, ...fecha] = item.title.split('-');
-          return {
-            nroPresupuesto,
-            cliente, 
-            fecha: fecha.join('-').replace("T", " "),
-            link: (<a href={`${item.alternateLink}`}><FontAwesomeIcon icon={faCopy} /></a>)
-          }
-        });
+    getAll()
+      .then(data => {
         setLista(data);
-      }).catch(e => setMessage({message: e.message, type: 'error'}));
-    });
-  }, [isAuthorized, gapi.client, setMessage]);
+      })
+      .catch(e => setMessage({message: e.message, type: 'error'}));
+  }, []);
   
   if(!isAuthorized) return (<NotAuthorized />);
   return (
     <Panel title="Presupuestos">
-      <Table columns={['No Presupuesto', 'Cliente', "Fecha", "Descargar"]} data={lista} edit={false} />
+      <Table
+        columns={['Id', 'No Presupuesto', "Cliente", "Obra", "Título", "Historial"]}
+        data={lista}
+        editLink={{to:'/presupuesto/', key: 'id'}}
+        loading={loading}
+      />
       <footer className="presupuestos-footer">
         <Button link="/borradores" color="yellow">Ver Borradores</Button>
         <Button color="green" className="ml-15" handleClick={e=>{}} link="/presupuesto">Nuevo</Button>

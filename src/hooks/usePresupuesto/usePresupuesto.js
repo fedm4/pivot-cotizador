@@ -33,10 +33,10 @@ const reducer = (state, action) => {
     }
 };
 
-const usePresupuesto = () => {
+const usePresupuesto = (_id) => {
     const collection = 'presupuesto';
-    const {firebase} = useContext(MainContext);
-    const [id, setId] = useState(null);
+    const {firebase, setLoading} = useContext(MainContext);
+    const [id, setId] = useState(_id);
     const [state, dispatch] = useReducer(reducer, JSON.parse(JSON.stringify(initialState)));
 
     /**
@@ -58,9 +58,8 @@ const usePresupuesto = () => {
 
     /**
      * 
-     * @param {*} id 
      */
-    const getById = async(id) => {
+    const getById = async() => {
         try{
             const ret = await firebase.collection(collection).doc(id).get();
             const data = ret.data();
@@ -71,10 +70,33 @@ const usePresupuesto = () => {
         }
     };
 
+    const getAll = async () => {
+      try{
+          setLoading(true);
+          const snapshot = await firebase.getAll(collection);
+          const ret = snapshot.docs.map(doc => {
+              const data = doc.data();
+              return ({
+                id: doc.id,
+                nroPresupuesto: data.datos.nroPresupuesto,
+                cliente: data.datos.cliente,
+                obra: data.datos.obra,
+                titulo: data.datos.titulo
+              });
+          });
+          setLoading(false);
+          return ret;
+      } catch(err) {
+          throw new Error(`Error obteniendo presupuestos - ${err}`);
+      }
+    }
+    
     return {
         create,
         dispatch,
+        getAll,
         getById,
+        id,
         state,
     };
 

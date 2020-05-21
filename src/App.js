@@ -31,6 +31,7 @@ const App = () => {
     roles: []
   }));
   const [message, setMessage] = useState({message: null, type: null});
+  const [loading, setLoading] = useState(false);
   
   const {
     handleClientLoad,
@@ -66,7 +67,9 @@ const App = () => {
           gapi,
           firebase,
           user,
-          setMessage
+          setMessage,
+          loading,
+          setLoading
         }
       }
     >
