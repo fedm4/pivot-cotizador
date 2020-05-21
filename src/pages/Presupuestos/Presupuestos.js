@@ -25,7 +25,7 @@ const Presupuestos = () => {
           cliente: item.datos.cliente,
           obra: item.datos.obra,
           titulo: item.datos.titulo,
-          historial: <Link to={`/historial/${item.id}`}><FontAwesomeIcon icon={faArchive} /></Link>
+          historial: <Link to={`/presupuesto/${item.id}/historial/`}><FontAwesomeIcon icon={faArchive} /></Link>
        }))
       )
       .then(data => setLista(data))

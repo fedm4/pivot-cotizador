@@ -1,50 +1,49 @@
 import React, {useState, useEffect, useContext} from 'react';
+import moment from 'moment-timezone';
+import {useParams} from 'react-router-dom';
 import Table from '../../components/Table/Table';
 import Panel from '../../components/Panel/Panel';
 import Button from '../../components/Button/Button';
 import './HistorialPresupuesto.scss';
 import MainContext from '../../context/MainContext';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCopy } from '@fortawesome/free-solid-svg-icons';
 import useAuthBlocker from '../../hooks/useAuthBlocker/useAuthBlocker';
+import useHistorialPresupuesto from '../../hooks/useHistorialPresupuesto/useHistorialPresupuesto';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faDownload} from '@fortawesome/free-solid-svg-icons';
 
 const HistorialPresupuesto = () => {
   const [lista, setLista] = useState([]);
-  const {gapi, setMessage}  = useContext(MainContext);
+  const {pid} = useParams();
+  const {setMessage}  = useContext(MainContext);
   const {isAuthorized, NotAuthorized} = useAuthBlocker('cotizador');
-
+  const {
+    getAllByPresupuestoId
+  } = useHistorialPresupuesto();
   useEffect(() => {
-    const folderId = '1jGXdMGlHqCh4Zbewz9J-i1xOnTOLx4re';
     if(!isAuthorized) return;
-    gapi.client.load('drive', 'v2', async ()=>{
-      gapi.client.drive.files.list({
-        q: `'${folderId}' in parents`
-      }).then(response => {
-        const data = response.result.items.map(item => {
-          const [nroPresupuesto, cliente, ...fecha] = item.title.split('-');
-          return {
-            nroPresupuesto,
-            cliente, 
-            fecha: fecha.join('-').replace("T", " "),
-            link: (<a href={`${item.alternateLink}`}><FontAwesomeIcon icon={faCopy} /></a>)
-          }
-        });
-        setLista(data);
-      }).catch(e => setMessage({message: e.message, type: 'error'}));
-    });
-  }, [isAuthorized, gapi.client, setMessage]);
+    getAllByPresupuestoId(pid)
+      .then(data => data.map(item => ({
+        nroPresupuesto: item.presupuesto.datos.nroPresupuesto,
+        cliente: item.presupuesto.datos.cliente,
+        obra: item.presupuesto.datos.obra,
+        fecha: moment(item.fecha).tz('America/Argentina/Buenos_Aires').format('DD-MM-YYYY hh:mm:ss'),
+        version: item.version || null,
+        url: (<a target="blank" href={item.url}><FontAwesomeIcon icon={faDownload} /></a>)
+      })))
+      .then(data => setLista(data))
+      .catch(e => setMessage({message: e.message, type: 'error'}));
+  }, [isAuthorized, setMessage]);
   
   if(!isAuthorized) return (<NotAuthorized />);
   return (
-    <Panel title="Presupuestos">
+    <Panel title={`Historial de Presupuestos - ${pid}`}>
       <Table
-        columns={['No Presupuesto', 'Cliente', "Fecha", "Descargar"]}
+        columns={['No Presupuesto', 'Cliente', 'Obra', 'Fecha', 'Version', "Descargar"]}
         data={lista}
         edit={false} 
       />
       <footer className="presupuestos-footer">
-        <Button link="/borradores" color="yellow">Ver Borradores</Button>
-        <Button color="green" className="ml-15" handleClick={e=>{}} link="/presupuesto">Nuevo</Button>
+        <Button link="/presupuestos" color="red">Volver</Button>
       </footer>
     </Panel>
   );

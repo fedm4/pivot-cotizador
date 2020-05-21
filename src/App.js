@@ -11,6 +11,7 @@ import {
 } from 'react-router-dom';
 import Presupuestos from './pages/Presupuestos/Presupuestos';
 import Presupuesto from './pages/Presupuesto/Presupuesto';
+import HistorialPresupuesto from './pages/HistorialPresupuesto/HistorialPresupuesto';
 import Usuarios from './pages/Usuarios/Usuarios';
 import Usuario from './pages/Usuario/Usuario';
 import gappsSignInService from './services/gappsSignIn';
@@ -105,6 +106,9 @@ const App = () => {
                     </Route>
                     <Route exact path="/presupuesto/:id">
                       <Presupuesto></Presupuesto>
+                    </Route>
+                    <Route exact path="/presupuesto/:pid/historial">
+                      <HistorialPresupuesto></HistorialPresupuesto>
                     </Route>
                   </Switch>
                 </section>

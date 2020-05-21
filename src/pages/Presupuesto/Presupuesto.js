@@ -11,6 +11,7 @@ import Sistema from './components/Sistema/Sistema';
 import useAuthBlocker from '../../hooks/useAuthBlocker/useAuthBlocker';
 import MainContext from '../../context/MainContext';
 import usePresupuesto from '../../hooks/usePresupuesto/usePresupuesto';
+import useHistorialPresupuesto from '../../hooks/useHistorialPresupuesto/useHistorialPresupuesto';
 
 const Presupuesto = () => {
   const {id: paramId} = useParams();
@@ -28,7 +29,7 @@ const Presupuesto = () => {
     id,
     update
   } = usePresupuesto(paramId);
-
+  const {create: createHistorial} = useHistorialPresupuesto(paramId);
 
   useEffect(() => {
     dispatch({type: 'setPrecioTotal'});
@@ -52,15 +53,22 @@ const Presupuesto = () => {
         });
     } else {
       update()
+        .then(()=>setSaving(false))
         .then(() => setMessage({message: 'Presupuesto guardado', type:'success'}))
         .catch(e => setMessage({message: e.message, type:'error'}));
     }
-    setSaving(false);
   };
 
   const handleGenerarPresupuesto = async () => {
     setWriting(true);
-    await createPresupuestoFile(gapi, state, setWriting);
+    try{
+      const url = await createPresupuestoFile(gapi, state);
+      await createHistorial(id, url, state);
+      setMessage({message: 'Presupuesto generado exitosamente', type: 'success'});
+    } catch(err) {
+      setMessage({message: err.message, type:'error'});
+    }
+    setWriting(false);
   };
 
   if(!isAuthorized) return (<NotAuthorized />);

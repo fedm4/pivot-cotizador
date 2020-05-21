@@ -196,16 +196,14 @@ const writeToPresupuesto = async (gapi, spreadsheetId, presupuesto) => {
   };
 
 }
-export const createPresupuestoFile = async (gapi, presupuesto, setWriting) =>{
+export const createPresupuestoFile = async (gapi, presupuesto) =>{
   try {
     const newFile = await createFile(gapi, presupuesto.datos.nroPresupuesto, presupuesto.datos.cliente); 
     await moveFile(gapi, newFile.result.spreadsheetId);
     await copyPresupuestoBase(gapi, newFile.result.spreadsheetId);
     await writeToPresupuesto(gapi, newFile.result.spreadsheetId, presupuesto);
-    alert("Presupuesto creado");
+    return newFile.result.spreadsheetUrl;
   } catch (err) {
-    alert("Error creando presupuesto");
     throw err;
   }
-  setWriting(false);
 }
