@@ -4,7 +4,6 @@
   border-radius: 5px;
   box-shadow: 0 0 3px $light-gray;
   margin: 25px auto;
-  overflow: hidden;
   width: 90%;
   .panel-header{
     background-color: $red;
@@ -18,5 +17,7 @@
   .panel-footer {
     display: flex;
     justify-content: flex-end;
+    margin-top: 15px;
+    width: 100%;
   }
 }

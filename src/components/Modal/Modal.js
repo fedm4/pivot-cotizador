@@ -4,8 +4,8 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import './Modal.scss';
 
-const Modal = ({isOpen, closeModal, contentCentered, children, height, type}) => {
-   const [title, setTitle] = useState(null);
+const Modal = ({isOpen, closeModal, contentCentered, children, height, type, title, overlay = true}) => {
+   const [_title, setTitle] = useState(title);
    const modalProps = useSpring({
         height: height+'px',
         from: {top: isOpen ? '-40vh': '15vh', delay: '0.5s'},
@@ -13,6 +13,7 @@ const Modal = ({isOpen, closeModal, contentCentered, children, height, type}) =>
         delay: '0.5s'
     });
     useEffect(() => {
+      if(title) return;
       switch(type) {
         case "error":
           setTitle('Ups! Algo salió mal.');
@@ -30,13 +31,22 @@ const Modal = ({isOpen, closeModal, contentCentered, children, height, type}) =>
     if(!isOpen) return null;
     return (
       <React.Fragment>
-        <div className="overlay"></div>
+        {
+          overlay ?
+          <div className="overlay"></div>
+          :null
+        }
         <animated.section className={`modal`} style={modalProps}>
           <header className={`${type}`}>
-            {title}     
-            <button onClick={closeModal} type="button" className="close-icon">
-              <FontAwesomeIcon icon={faTimes} />
-            </button>
+            {_title}
+            {
+              closeModal ?
+              <button onClick={closeModal} type="button" className="close-icon">
+                <FontAwesomeIcon icon={faTimes} />
+              </button>
+              :
+              null
+            }    
           </header>
           <article className={`content ${contentCentered ? 'center': ''}`}>
             {children}

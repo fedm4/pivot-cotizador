@@ -56,8 +56,10 @@ main {
 }
 
 .flex{ display: flex; }
+.flex-wrap{flex-wrap: wrap; }
 .justify-flex-end { justify-content: flex-end; }
 .justify-space-between {justify-content: space-between;}
+.justify-evenly {justify-content: space-evenly;}
 .flex-align-center { align-items: center; }
 .mt-25 {margin-top: 25px;}
 .ml-15 {margin-left: 15px;}

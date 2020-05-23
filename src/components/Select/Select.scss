@@ -1,8 +1,15 @@
 @import '../../scss/common/variables';
 
 .select {
+  box-sizing: border-box;
   height: 30px;
   [class*="control"] {
     border-radius: 0;
+  }  
+}
+.hwidth-item {
+  width: 50%;
+  .select {
+    width: 100%;
   }
 }

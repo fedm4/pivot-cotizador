@@ -4,6 +4,14 @@ import Skeleton from 'react-loading-skeleton';
 import './Input.scss'
 
 const Input = ({value, handleChange, label, placeholder, type, className, name, skeleton}) => {
+  const onChange = e => {
+    if(type === "date"){
+      handleChange({...e, target: {...e.target, value: new Date(e.target.value).getTime()}})
+    }else {
+      handleChange(e);
+    }
+  };
+
   return (
     <label className={className}>
       <span className="label">{label}</span>

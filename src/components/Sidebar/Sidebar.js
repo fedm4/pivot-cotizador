@@ -1,19 +1,13 @@
 import React, {useContext, useEffect, useReducer} from 'react';
 import {Link, useLocation} from 'react-router-dom';
-import Button from './../Button/Button';
+import {animated, useSpring} from 'react-spring';
 import MainContext from './../../context/MainContext';
 
 import './Sidebar.scss';
 
 const reducer = (state, action) => {
-  switch(action.type) {
-    case 'setPresupuestos':
-      return {presupuestos: "active"};
-    case 'setUsuarios':
-      return {usuarios: "active"};
-    default:
-      return state;
-  }
+  if(!action.key) return {};
+  return {[action.key]: 'active'};
 };
 
 const Sidebar = () => {
@@ -25,63 +19,84 @@ const Sidebar = () => {
     isGappsSignedIn,
     user
   } = useContext(MainContext);
+
+  const tesoreriaSubmenuProps = useSpring({height:state.tesoreria?90:0, from:{height: state.tesoreria?0:90, duration: 150}});
+
   useEffect(() => {
-    let type;
+    let key;
     switch(location.pathname.split("/")[1]) {
-      case "/" :
-        type = "setPresupuestos";
-        break;
       case "presupuestos":
-        type = "setPresupuestos";
+        key = "presupuestos";
         break;
       case "presupuesto":
-        type = "setPresupuestos";
-        break;
-      case "borradores":
-        type = "setPresupuestos";
-        break;
-      case "borrador":
-        type = "setPresupuestos";
+        key = "presupuestos";
         break;
       case "usuarios":
-        type = "setUsuarios";
+        key = "usuarios";
         break;
       case "usuario":
-        type = "setUsuarios";
+        key = "usuarios";
+        break;
+      case "tesoreria":
+        key = "tesoreria";
         break;
       default:
-        type = "";
+        break;
     }
-    dispatch({type});
+    dispatch({key});
   }, [location.pathname]);
   return (
     <aside className="sidebar">
       <nav className="sidebar-nav">
         {
           user.roles.indexOf('cotizador') !== -1 ?
-            isGappsSignedIn ?
-            <React.Fragment>
-              <Link className={`${state.presupuestos}`} onClick={()=>dispatch({type:'setPresupuestos'})} to="/presupuestos">Presupuestos</Link>
-              <Button handleOnClick={handleSignOutClick}
-                color="red"
-                id="signout-button"
-                className="g-button"
-                borderless={true}
-                fullwidth={true}
-              >
-                Desconectar
-              </Button>
-            </React.Fragment>
-            :
-            <Button type="button" borderless={true} handleOnClick={handleAuthClick} color="green" fullwidth={true}>
-              Conectar
-            </Button>
+          <Link className={`menu-item ${state.presupuestos}`} onClick={()=>dispatch({key:'presupuestos'})} to="/presupuestos">
+            <span className="link">Presupuestos</span>
+          </Link>
           :
           null          
         }
         {
           user.roles.indexOf('usuarios') !== -1 ?
-          <Link className={`${state.usuarios}`}  onClick={()=>dispatch({type:'setUsuarios'})} to="/usuarios">Usuarios</Link>
+          <Link
+            className={`menu-item ${state.usuarios}`} 
+            onClick={()=>dispatch({key:'usuarios'})}
+            to="/usuarios">
+            <span className="link">Usuarios</span>
+          </Link>
+          :
+          null
+        }
+        {
+          user.roles.indexOf('egresos') !== -1 ||
+          user.roles.indexOf('ingresos') !== -1 ?
+          <div
+            className={`menu-item ${state.tesoreria}`}
+            to="/tesoreria"
+          >
+            <Link className="link"
+              onClick={()=>dispatch({key: 'tesoreria'})}
+              to="/tesoreria"
+            >
+              Tesorería
+            </Link>
+            <animated.ul style={tesoreriaSubmenuProps}>
+              {
+                user.roles.indexOf('ingresos') !== -1 ?
+                <li>
+                  <Link className="sublink" to="/tesoreria/ingresos">Ingresos</Link>
+                </li>
+                :null
+              }
+              {
+                user.roles.indexOf('egresos') !== -1 ?
+                <li>
+                  <Link className="sublink" to="/tesoreria/egresos">Egresos</Link>
+                </li>
+                :null
+              }
+            </animated.ul>
+          </div>
           :
           null
         }

@@ -5,20 +5,48 @@
   min-height: calc(100vh - 80px);
   width: 150px;
   .sidebar-nav {
-    a {
-      border-left: 0 solid $red;
-      box-sizing: border-box;
-      color: white;
-      text-decoration: none;
-      width: 100%;
-      padding: 15px;
+    .menu-item {
       display: inline-block;
-      transition: all 0.3s linear; 
-
+      width: 100%;
+      .link {
+        border-left: 0 solid $red;
+        box-sizing: border-box;
+        color: white;
+        display: inline-block;
+        padding: 15px;
+        text-decoration: none;
+        transition: all 0.3s linear; 
+        width: 100%;
+      }
       &.active, &:hover{
-        color: #ea2f2f;
-        padding-left: 10px;
-        border-left: 5px solid $red;
+        .link {
+          color: #ea2f2f;
+          padding-left: 10px;
+          border-left: 5px solid $red;
+        }
+      }
+      ul {
+        background-color: $dark-gray;
+        font-size: 13px;
+        list-style: none;
+        margin: 0;
+        overflow: hidden;
+        padding: 0;
+        transition: height 0.2s ease-in-out;
+        li .sublink {
+          align-items: center;
+          box-sizing: border-box;
+          color: $white;
+          display: flex;
+          height: 45px;
+          justify-content: flex-start;
+          padding-left: 25px;
+          text-decoration: none;
+          transition: color 0.2s ease-in-out;
+          &:hover, &.active {
+            color: $red;
+          }
+        }
       }
     }
   }

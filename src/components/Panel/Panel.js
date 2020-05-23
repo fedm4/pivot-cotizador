@@ -1,11 +1,11 @@
 import React from 'react';
 import './Panel.scss';
 
-const Panel = ({title, children}) => {
+const Panel = ({title, children, className}) => {
   return (
-    <section className="panel">
+    <section className={`panel`}>
       <header className="panel-header">{title}</header>
-      <div className="panel-content">
+      <div className={`panel-content ${className}`}>
         {children}
       </div>
     </section>

@@ -1,3 +1,5 @@
+import useBaseModel from '../useBaseModel/useBaseModel';
+
 import {useContext, useReducer, useState} from 'react';
 import MainContext from '../../context/MainContext';
 import {
@@ -6,7 +8,7 @@ import {
     deleteSistema,
     getPrecioTotalUpdate,
   } from '../../helpers/presupuestoReducerHelper';
-import {initialState} from '../../consts/presupuesto';
+import {initialState as _initialState} from '../../consts/presupuesto';
 
 const reducer = (state, action) => {
     switch(action.type) {
@@ -35,62 +37,17 @@ const reducer = (state, action) => {
 
 const usePresupuesto = (_id) => {
     const collection = 'presupuesto';
-    const {firebase, setLoading} = useContext(MainContext);
-    const [id, setId] = useState(_id);
-    const [state, dispatch] = useReducer(reducer, JSON.parse(JSON.stringify(initialState)));
+    const initialState = JSON.parse(JSON.stringify(_initialState));
+    const {
+      create,
+        dispatch,
+        getAll,
+        getById,
+        id,
+        state,
+        update
+    } = useBaseModel({reducer, initialState, _id, collection});
 
-    /**
-     * 
-     */
-    const create = async () => {
-        try {
-            const res = await firebase.database.collection(collection)
-                .add(state);
-            setId(res.id);
-        } catch(err) {
-            throw new Error(`Error creando presupuesto - ${err}`);
-        }
-    }
-
-    const update = async () => {
-      try {
-        await firebase.update(collection, id, state);
-      } catch(err) {
-        throw new Error(`Error actualizando presupuesto - ${err}`);
-      }
-    };
-
-    /**
-     * 
-     */
-    const getById = async() => {
-        try{
-            const ret = await firebase.collection(collection).doc(id).get();
-            const data = ret.data();
-            dispatch({type: 'setAll', payload: data});
-        }catch(err){
-            throw new Error(`Error obteniendo presupuesto por id ${id} - ${err}`);
-        }
-    };
-
-    const getAll = async () => {
-      try{
-          setLoading(true);
-          const snapshot = await firebase.getAll(collection);
-          const ret = snapshot.docs.map(doc => {
-              const data = doc.data();
-              return ({
-                id: doc.id,
-                ...data
-              });
-          });
-          setLoading(false);
-          return ret;
-      } catch(err) {
-          throw new Error(`Error obteniendo presupuestos - ${err}`);
-      }
-    }
-    
     return {
         create,
         dispatch,

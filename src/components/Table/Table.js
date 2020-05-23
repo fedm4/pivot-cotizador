@@ -4,8 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTimes } from '@fortawesome/free-solid-svg-icons';
 import {Link} from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
+import moment from 'moment-timezone';
 
-const Table = props =>{
+const Table = ({exclude = [], timeFields = [], ...props}) =>{
     const editClick = (event,user) => {
         setClickedAnimation(event);
         props.edit(user);
@@ -52,8 +53,17 @@ const Table = props =>{
                 {props.data.map((item, index) => {
                     return (
                         <tr key={`table-${index}`}>
-                            {Object.keys(item).map(key =>{
-                                    return (<td key={`table-${index}-${key}`}>{item[key]}</td>);
+                            {(() => props.order? props.order:Object.keys(item))().filter(key => exclude.indexOf(key) === -1).map(key =>{
+                                    return (
+                                        <td key={`table-${index}-${key}`}>
+                                            {
+                                                timeFields.indexOf(key) > -1 ?
+                                                moment(item[key]).tz('America/Argentina/Buenos_Aires').format('DD-MM-YYYY hh:mm')
+                                                :
+                                                item[key]
+                                            }
+                                        </td>
+                                    );
                             })}
                             {
                                 props.edit?

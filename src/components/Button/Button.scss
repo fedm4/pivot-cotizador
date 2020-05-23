@@ -65,6 +65,18 @@
       background-color: lighten($blue, 20);
     }
   }
+  &.link {
+    color: $blue;
+    text-decoration: underline;
+    width: auto;
+    &:hover{
+      background-color: inherit;
+    }
+    &.focus, &:active{
+      border: none;
+      outline: none;
+    }
+  }
   &.saving {
     background-color: $white!important;
   }

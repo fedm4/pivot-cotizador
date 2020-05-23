@@ -10,10 +10,17 @@ import './Presupuestos.scss';
 import MainContext from '../../context/MainContext';
 import useAuthBlocker from '../../hooks/useAuthBlocker/useAuthBlocker';
 import usePresupuesto from '../../hooks/usePresupuesto/usePresupuesto';
+import Modal from '../../components/Modal/Modal';
 
 const Presupuestos = () => {
   const [lista, setLista] = useState([]);
-  const {loading, setMessage}  = useContext(MainContext);
+  const {
+    loading,
+    setMessage,
+    handleAuthClick,
+    handleSignOutClick,
+    isGappsSignedIn
+  }  = useContext(MainContext);
   const {isAuthorized, NotAuthorized} = useAuthBlocker('cotizador');
   const {getAll} = usePresupuesto();
 
@@ -30,16 +37,33 @@ const Presupuestos = () => {
       )
       .then(data => setLista(data))
       .catch(e => setMessage({message: e.message, type: 'error'}));
-  }, [getAll, setMessage]);
+  }, []);
   
   if(!isAuthorized) return (<NotAuthorized />);
+  if(!isGappsSignedIn) {
+    return (
+      <Modal
+        isOpen={true}
+        contentCentered={true}
+        height={250}
+        type="error"
+        title="Conectar a Google Apps"
+        overlay={false}
+      >
+        <Button type="button" borderless={true} handleOnClick={handleAuthClick} color="green" fullwidth={true}>
+          Conectar
+        </Button>
+      </Modal>
+    );
+  }
   return (
     <Panel title="Presupuestos">
       <Table
-        columns={['Id', 'No Presupuesto', "Cliente", "Obra", "Título", "Historial"]}
+        columns={['No Presupuesto', "Cliente", "Obra", "Título", "Historial"]}
         data={lista}
         editLink={{to:'/presupuesto/', key: 'id'}}
         loading={loading}
+        exclude={['id']}
       />
       <footer className="presupuestos-footer">
         <Button color="green" className="ml-15" link="/presupuesto">Nuevo</Button>

@@ -21,6 +21,9 @@ import './App.scss';
 import User from './models/User';
 import Modal from './components/Modal/Modal';
 import MainScreen from './pages/MainScreen/MainScreen';
+import Tesoreria from './pages/Tesoreria/Tesoreria';
+import Ingresos from './pages/Ingresos/Ingresos';
+import Ingreso from './pages/Ingreso/Ingreso';
 
 const App = () => {
   const gapi = window.gapi;
@@ -109,6 +112,18 @@ const App = () => {
                     </Route>
                     <Route exact path="/presupuesto/:pid/historial">
                       <HistorialPresupuesto></HistorialPresupuesto>
+                    </Route>
+                    <Route exact path="/tesoreria">
+                      <Tesoreria />
+                    </Route>
+                    <Route exact path="/tesoreria/ingresos">
+                      <Ingresos></Ingresos>
+                    </Route>
+                    <Route exact path="/tesoreria/ingreso">
+                      <Ingreso></Ingreso>
+                    </Route>
+                    <Route exact path="/tesoreria/ingreso/:iid">
+                      <Ingreso></Ingreso>
                     </Route>
                   </Switch>
                 </section>

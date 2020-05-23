@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import ReactSelect from 'react-select';
+import Creatable from 'react-select/creatable';
 import Skeleton from 'react-loading-skeleton';
 
 import './Select.scss';
 
-const Select = ({label, name, onChange, options, className, _value, skeleton}) => {
+const Select = ({label, name, onChange, options, className, _value, skeleton, allowCreate}) => {
   const [value, setValue] = useState(_value ? _value : null);
   const style = {
     control: base => ({
@@ -34,6 +35,18 @@ const Select = ({label, name, onChange, options, className, _value, skeleton}) =
           {
             skeleton ? 
             <Skeleton height={30} />
+            :
+            allowCreate ?
+            <Creatable
+                  className="select"
+                  name={name}
+                  onChange={handleChange}
+                  options={options}
+                  placeholder="Seleccionar"
+                  value={{label: value, value}}
+                  styles={style}
+                  disabled={options.length === 0?"disabled":""}
+            />
             :
             <ReactSelect
                   className="select"
