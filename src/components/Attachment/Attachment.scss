@@ -1,9 +1,13 @@
+@import '../../scss/common/variables';
+
 .attachment-container {
     display: inline-block;
-    height: 120px;
     vertical-align: top;
+    padding: 10px;
+    position: relative;
     text-align: center;
-    width: 120px;
+    transition: background-color 0.3s linear;
+    width: 80px;
     .attachment-link svg{
         font-size: 60px;
     }
@@ -14,5 +18,23 @@
         text-overflow: ellipsis;
         margin-top: 5px;
         white-space: nowrap;
+    }
+    .delete {
+        color: $red;
+        cursor: pointer;
+        opacity: 0;
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        transition: all 0.3s linear;
+    }
+    &:hover{
+        background-color: $blue;
+        .attachment-link svg {
+            color: $dark-gray;
+        } 
+        .delete {
+            opacity: 1;
+        }
     }
 }

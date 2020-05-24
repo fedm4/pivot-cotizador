@@ -7,10 +7,8 @@ import Input from '../../components/Input/Input';
 import Select from '../../components/Select/Select';
 import Button from '../../components/Button/Button';
 import Textarea from '../../components/Textarea/Textarea';
-import FileUpload from '../../components/FileUpload/FileUpload';
-import Attachment from '../../components/Attachment/Attachment';
-
-import './Ingreso.scss';
+import AttachmentSection from '../../components/AttachmentSection/AttachmentSection';
+import BackButton from '../../components/BackButton/BackButton';
 
 const Ingreso = () => {
     const {iid} = useParams();
@@ -25,7 +23,9 @@ const Ingreso = () => {
         handleInputChange,
         handleSelectChange,
         uploadFile,
-        estados
+        deleteFile,
+        estados,
+        changesSaved
     } = useIngreso(iid);
     const {isAuthorized, NotAuthorized} = useAuthBlock('ingresos');
 
@@ -98,17 +98,14 @@ const Ingreso = () => {
                 value={state.anotaciones}
                 skeleton={!display}
             />
-            <div className="file-section">
-                <label className="section-title">Adjuntos</label>
-                <FileUpload
-                    name="adjuntos"
-                    onUpload={uploadFile}
-                    uploading={uploading}
-                />
-                {
-                    state.adjuntos.map((item, index)=>(<Attachment key={`at-in-${index}`} url={item.url} name={item.name} />))
-                }
-            </div>
+            <AttachmentSection
+                name="adjuntos"
+                onUpload={uploadFile}
+                uploading={uploading}
+                attachedFiles={state.adjuntos || []}
+                onDelete={deleteFile}
+                folder="ingresos"
+            />
             <footer className="panel-footer">
                 <Button
                     color="green"
@@ -119,7 +116,7 @@ const Ingreso = () => {
                 >
                     {id? 'Modificar': 'Crear'}
                 </Button>
-                <Button color="red" className="ml-15"  link="/tesoreria/ingresos">Volver</Button>
+                <BackButton link="/tesoreria/ingresos" enabled={!changesSaved} />
             </footer>
         </Panel>
     );

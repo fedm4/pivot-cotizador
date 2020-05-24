@@ -45,17 +45,24 @@ const usePresupuesto = (_id) => {
         getById,
         id,
         state,
-        update
+        update,
+        changesSaved,
+        setChangesSaved
     } = useBaseModel({reducer, initialState, _id, collection});
 
+    const _dispatch = (data) => {
+      setChangesSaved(false);
+      dispatch(data);
+    }
     return {
         create,
-        dispatch,
+        dispatch: _dispatch,
         getAll,
         getById,
         id,
         state,
-        update
+        update,
+        changesSaved
     };
 
 };

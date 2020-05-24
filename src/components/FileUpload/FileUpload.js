@@ -28,6 +28,7 @@ const FileUpload = ({name, onUpload, uploading}) => {
                 color="blue"
                 handleOnClick={handleUpload}
                 saving={uploading}
+                disabled={file?'':'disabled'}
             >
                 Upload
             </Button>

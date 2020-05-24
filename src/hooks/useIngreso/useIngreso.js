@@ -28,7 +28,9 @@ export default (_id) => {
         uploading,
         handleInputChange,
         handleSelectChange,
-        uploadFile
+        uploadFile,
+        deleteFile,
+        changesSaved
     } = useBaseModel({initialState, _id, collection});
     const [triggerCreate, setTriggerCreate] = useState(false);
     const _create = () => {
@@ -58,6 +60,8 @@ export default (_id) => {
         handleInputChange,
         handleSelectChange,
         uploadFile: _uploadFile,
+        deleteFile,
+        changesSaved,
         estados
     };
 };

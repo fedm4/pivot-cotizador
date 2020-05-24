@@ -52,7 +52,7 @@ class Firebase {
 
     async deleteFile (file, folder) {
         try{
-            const fileRef = this.getFileRef(file.name, folder);
+            const fileRef = this.getFileRef(file, folder);
             await fileRef.delete();
         }catch (err) {
             throw err;

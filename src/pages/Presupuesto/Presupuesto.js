@@ -7,6 +7,7 @@ import DataForm from './components/DataForm/DataForm';
 import SistemaModal from './components/SistemaModal/SistemaModal';
 import Button from '../../components/Button/Button';
 import Sistema from './components/Sistema/Sistema';
+import BackButton from '../../components/BackButton/BackButton';
 
 import useAuthBlocker from '../../hooks/useAuthBlocker/useAuthBlocker';
 import MainContext from '../../context/MainContext';
@@ -27,20 +28,14 @@ const Presupuesto = () => {
     getById,
     state,
     id,
-    update
+    update,
+    changesSaved
   } = usePresupuesto(paramId);
   const {create: createHistorial} = useHistorialPresupuesto(paramId);
 
   useEffect(() => {
     dispatch({type: 'setPrecioTotal'});
-  }, [state.datos.marcacion, dispatch])
-
-  useEffect(() => {
-    if(paramId) {
-      getById()
-        .catch(e => setMessage({message: e.message, type: 'error'}));
-    }
-  }, []);
+  }, [state.datos.marcacion])
 
   const guardar = () => {
     setSaving(true);
@@ -106,11 +101,10 @@ const Presupuesto = () => {
             handleOnClick={handleGenerarPresupuesto}
             saving={writing}
           >Generar Presupuesto</Button>
-          <Button
-            className="ml-15"
-            color="red"
+          <BackButton
             link="/presupuestos"
-          >Volver</Button>
+            enabled={!changesSaved}
+          />
         </div>
       </form>
     </Panel>
