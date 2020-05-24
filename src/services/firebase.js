@@ -25,61 +25,47 @@ class Firebase {
         this.auth = app.auth();
     }
 
-    /**
-     * Get reference to file and return
-     * @param {*} fileName 
-     */
-    getFileRef (fileName) {
+    /***********
+     * STORAGE *
+     ***********/
+
+    getFileRef (fileName, folder) {
         try {
             const fileRef = this.storage
                 .ref()
-                .child(`images/${fileName}`);
+                .child(`${folder}/${fileName}`);
             return fileRef;
         } catch (err) {
-            console.log(err);
+            throw err;
         }
     }
 
-    /**
-     * Recibe una referencia de la imagen, crea
-     * una referencia en storage, y la sube.
-     * 
-     * @param {File} file 
-     */
-    async subirImagen (file) {
-        const fileRef = this.getFileRef(file.name);
+    async uploadFile (file, fileName, folder) {
+        const fileRef = this.getFileRef(fileName, folder);
         try {
-            await fileRef.put(file);
+            const data = await fileRef.put(file);
+            return data.ref.getDownloadURL();
         }catch(err) {
-            console.log(err);
+            throw err;
         }
     }
 
-    /**
-     * Borra la file del storage. 
-     * Utilizado en caso de error generando 
-     * reclamo.
-     * @param {File} file 
-     */
-    async borrarImagen (file) {
+    async deleteFile (file, folder) {
         try{
-            const fileRef = this.getFileRef(file.name);
+            const fileRef = this.getFileRef(file.name, folder);
             await fileRef.delete();
         }catch (err) {
-            console.log(err);
+            throw err;
         }
     }
 
-    /**
-     * 
-     */
-    async getFile (file) {
+    async getFile (file, folder) {
         if(!file) return null;
         try {
-            const fileRef = this.getFileRef(file);
+            const fileRef = this.getFileRef(file, folder);
             return await fileRef.getDownloadURL();
         }catch(err) {
-            console.log(err);
+            throw err;
         }
     }
 
@@ -96,12 +82,12 @@ class Firebase {
         try {
             return await this.auth.createUserWithEmailAndPassword(email, password);
         } catch (err) {
-            console.log(err);
+            throw err;
         }
     }
     async signInEmail(email, password) {
         this.auth.signInWithEmailAndPassword(email, password)
-            .catch(err=>console.log(err));
+            .catch(err=> {throw err;});
     }
     signOut() {
         this.auth.signOut();

@@ -1,0 +1,23 @@
+.file-upload {
+    box-sizing: border-box;
+    display: inline-block;
+    text-align: center;
+    width: 100px;
+    .file-upload-label {
+        cursor: pointer;
+        display: inline-block;
+        width: 100%;
+        input {
+            display: none;
+        }
+        svg {
+            font-size: 60px;
+        }
+    }
+    .file-name {
+        display: block;
+        font-size: 13px;
+        margin-top: 5px;
+        margin-bottom: -10px;
+    }
+}

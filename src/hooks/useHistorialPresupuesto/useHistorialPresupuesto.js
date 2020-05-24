@@ -5,7 +5,6 @@ const usePresupuesto = () => {
     const collection = 'historialPresupuesto';
     const {firebase, setLoading} = useContext(MainContext);
     const [presupuesto, setPresupuesto] = useState({});
-    const [url, setUrl] = useState();
 
     /**
      * 
@@ -13,7 +12,7 @@ const usePresupuesto = () => {
     const create = async (id, url, presupuesto) => {
         try {
             const all = await getAllByPresupuestoId(id);
-            const res = await firebase.database.collection(collection)
+            await firebase.database.collection(collection)
                 .add({id, presupuesto, url, fecha: Date.now(), version: all.length + 1});
         } catch(err) {
             throw new Error(`Error creando historial presupuesto - ${err}`);

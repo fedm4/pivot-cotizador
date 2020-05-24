@@ -7,6 +7,12 @@ const _reducer = (state, action) => {
         return {...state, [action.key]: action.payload};
       case 'setAll':
           return action.payload;
+      case 'setFile':
+          let files = state[action.key];
+          files.push(action.file);
+          return {...state, [action.key]: files};
+      case 'removeFile':
+          throw new Error("Not Implemented");
       default:
         return state;
     }
@@ -17,6 +23,7 @@ export default ({reducer, initialState, _id, collection, onload=true}) => {
     const [id, setId] = useState(_id);
     const [display, setDisplay] = useState(true);
     const [saving, setSaving] = useState(false);
+    const [uploading, setUploading] = useState(false);
     const {firebase, setLoading, setMessage} = useContext(MainContext);
 
     /************************
@@ -30,6 +37,28 @@ export default ({reducer, initialState, _id, collection, onload=true}) => {
         dispatch({type: 'setData', key, payload: e.value})
     };
 
+    /*******************
+     * Storage Methods *
+     *******************/
+    const renameFile = (file) => {
+        const name = file.name;
+        const lastDot = name.lastIndexOf('.');
+        
+        const fileName = name.substring(0, lastDot);
+        const ext = name.substring(lastDot + 1);
+        return `${fileName}${Date.now()}.${ext}`;
+    }
+    const uploadFile = (file, targetName, folder) => {
+        setUploading(true);
+        const fileName = renameFile(file); 
+        firebase.uploadFile(file, fileName, folder)
+            .then(url => ({url, name: fileName}))
+            .then(file => dispatch({type: 'setFile', key: targetName, file}))
+            .then(() => {if(id) { update(); }})
+            .catch(e => setMessage({message: e.message, type: 'error'}))
+            .finally(() => setUploading(false));
+        
+    };
     /********************
      * Database Methods *
      ********************/
@@ -112,7 +141,9 @@ export default ({reducer, initialState, _id, collection, onload=true}) => {
         update,
         display,
         saving,
+        uploading,
         handleInputChange,
-        handleSelectChange
+        handleSelectChange,
+        uploadFile
     };
 }

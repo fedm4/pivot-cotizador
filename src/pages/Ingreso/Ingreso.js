@@ -7,6 +7,10 @@ import Input from '../../components/Input/Input';
 import Select from '../../components/Select/Select';
 import Button from '../../components/Button/Button';
 import Textarea from '../../components/Textarea/Textarea';
+import FileUpload from '../../components/FileUpload/FileUpload';
+import Attachment from '../../components/Attachment/Attachment';
+
+import './Ingreso.scss';
 
 const Ingreso = () => {
     const {iid} = useParams();
@@ -17,8 +21,10 @@ const Ingreso = () => {
         update,
         display,
         saving,
+        uploading,
         handleInputChange,
         handleSelectChange,
+        uploadFile,
         estados
     } = useIngreso(iid);
     const {isAuthorized, NotAuthorized} = useAuthBlock('ingresos');
@@ -54,6 +60,7 @@ const Ingreso = () => {
                 options={[]}
                 _value={state.obra}
                 allowCreate={true}
+                skeleton={!display}
             />
             <Select
                 className="hwidth-item"
@@ -62,6 +69,7 @@ const Ingreso = () => {
                 onChange={e => handleSelectChange(e, 'estado')}
                 options={estados}
                 _value={state.estado}
+                skeleton={!display}
             />
             <Input
                 name="referencia" 
@@ -88,7 +96,19 @@ const Ingreso = () => {
                 name="anotaciones"
                 handleChange={handleInputChange}
                 value={state.anotaciones}
+                skeleton={!display}
             />
+            <div className="file-section">
+                <label className="section-title">Adjuntos</label>
+                <FileUpload
+                    name="adjuntos"
+                    onUpload={uploadFile}
+                    uploading={uploading}
+                />
+                {
+                    state.adjuntos.map((item, index)=>(<Attachment key={`at-in-${index}`} url={item.url} name={item.name} />))
+                }
+            </div>
             <footer className="panel-footer">
                 <Button
                     color="green"

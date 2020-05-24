@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ReactSelect from 'react-select';
 import Creatable from 'react-select/creatable';
 import Skeleton from 'react-loading-skeleton';
@@ -29,6 +29,10 @@ const Select = ({label, name, onChange, options, className, _value, skeleton, al
     onChange(e);
   };
 
+  useEffect(() => {
+    setValue(_value);
+  }, [_value]);
+
   return(
     <label className={className}>
           <span>{label}</span>
@@ -54,7 +58,7 @@ const Select = ({label, name, onChange, options, className, _value, skeleton, al
                   onChange={handleChange}
                   options={options}
                   placeholder="Seleccionar"
-                  value={{label: value, value}}
+                  value={options.filter(option => option.value === value)}
                   styles={style}
                   disabled={options.length === 0?"disabled":""}
               />

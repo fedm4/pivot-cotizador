@@ -25,8 +25,10 @@ export default (_id) => {
         update,
         display,
         saving,
+        uploading,
         handleInputChange,
-        handleSelectChange
+        handleSelectChange,
+        uploadFile
     } = useBaseModel({initialState, _id, collection});
     const [triggerCreate, setTriggerCreate] = useState(false);
     const _create = () => {
@@ -34,9 +36,14 @@ export default (_id) => {
         setTriggerCreate(true);
     };
 
+    const _uploadFile = (file, targetName) => {
+        uploadFile(file, targetName, 'ingresos');
+    };
+
     useEffect(()=> {
         if(triggerCreate) create();
     }, [triggerCreate]);
+
     return {
         create: _create,
         dispatch,
@@ -47,8 +54,10 @@ export default (_id) => {
         update,
         display,
         saving,
+        uploading,
         handleInputChange,
         handleSelectChange,
+        uploadFile: _uploadFile,
         estados
     };
 };

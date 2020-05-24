@@ -1,0 +1,18 @@
+.attachment-container {
+    display: inline-block;
+    height: 120px;
+    vertical-align: top;
+    text-align: center;
+    width: 120px;
+    .attachment-link svg{
+        font-size: 60px;
+    }
+    .attachment-name {
+        display: block;
+        font-size: 12px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-top: 5px;
+        white-space: nowrap;
+    }
+}
